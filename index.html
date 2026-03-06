@@ -19,28 +19,57 @@
 
         body {
             font-family: 'Russo One', sans-serif;
-            background-color: #000000;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a1a 100%);
             color: #ffffff;
             line-height: 1.4;
             font-weight: 400;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Звездное небо */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 80px 120px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 90px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 250px 180px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 320px 220px, #fff, rgba(0,0,0,0)),
+                radial-gradient(3px 3px at 400px 150px, #ffd700, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 480px 300px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 550px 380px, #fff, rgba(0,0,0,0)),
+                radial-gradient(3px 3px at 600px 250px, #87ceeb, rgba(0,0,0,0));
+            background-size: 700px 500px;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
             padding: 30px 20px;
+            position: relative;
+            z-index: 1;
         }
 
         /* ========== АВАТАР ========== */
         .avatar {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #343a40;
+            border: 3px solid #4a4a6a;
             display: block;
             margin: 0 auto 15px auto;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(100,100,200,0.3);
         }
 
         h1 {
@@ -52,13 +81,14 @@
             color: #fff;
             text-transform: uppercase;
             word-break: break-word;
+            text-shadow: 0 0 20px rgba(255,255,255,0.3);
         }
 
         /* ========== ГАЛЕРЕЯ ========== */
         .gallery {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 12px;
             margin: 30px 0 20px 0;
         }
 
@@ -67,14 +97,16 @@
             aspect-ratio: 1/1;
             background-size: cover;
             background-position: center;
-            border-radius: 16px;
-            border: 2px solid #343a40;
-            transition: transform 0.3s ease;
+            border-radius: 20px;
+            border: 2px solid #4a4a6a;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
 
         .gallery-item:hover {
-            transform: scale(1.02);
-            border-color: #666;
+            transform: scale(1.05);
+            border-color: #8888aa;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.8);
         }
 
         /* ========== АНИМАЦИИ ========== */
@@ -112,9 +144,10 @@
         .divider {
             text-align: center;
             margin: 30px 0 20px 0;
-            color: #343a40;
+            color: #8888aa;
             font-size: 2rem;
             letter-spacing: 5px;
+            text-shadow: 0 0 15px rgba(150,150,255,0.5);
         }
 
         .divider.fading {
@@ -124,20 +157,22 @@
         .arrow-down {
             text-align: center;
             margin: 20px 0;
-            color: #343a40;
+            color: #8888aa;
             font-size: 2rem;
             animation: fade 2.5s infinite;
+            text-shadow: 0 0 15px rgba(150,150,255,0.5);
         }
 
-        /* ========== ЗАГОЛОВКИ ========== */
+        /* ========== ЗАГОЛОВКИ (НЕ КАПС) ========== */
         .section-title {
             font-family: 'Russo One', sans-serif;
             font-size: 1.8rem;
             text-align: center;
             margin: 40px 0 25px 0;
             color: #fff;
-            text-transform: uppercase;
+            text-transform: none;
             letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(255,255,255,0.3);
         }
 
         .section-subtitle {
@@ -145,23 +180,49 @@
             font-size: 1.2rem;
             text-align: center;
             margin: 20px 0 25px 0;
-            color: #aaa;
-            text-transform: uppercase;
+            color: #ccc;
+            text-transform: none;
             letter-spacing: 0.5px;
             line-height: 1.6;
+            text-shadow: 0 0 10px rgba(200,200,255,0.3);
+        }
+
+        /* ========== БЛОКИ ========== */
+        .block {
+            background: rgba(20, 20, 40, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px 20px;
+            margin: 30px 0;
+            border: 2px solid rgba(100, 100, 150, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px rgba(80,80,150,0.3);
+        }
+
+        .contacts-block {
+            background: rgba(20, 20, 40, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px 20px;
+            margin: 30px 0;
+            border: 2px solid rgba(100, 100, 150, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px rgba(80,80,150,0.3);
         }
 
         /* ========== ВОПРОСЫ И ОТВЕТЫ (АККОРДЕОН) ========== */
         .faq-item {
             margin-bottom: 16px;
-            border: 2px solid #343a40;
+            border: 2px solid #4a4a6a;
             border-radius: 20px;
             overflow: hidden;
+            background: rgba(10, 10, 20, 0.7);
+            backdrop-filter: blur(5px);
         }
 
         .faq-question {
             font-family: 'Russo One', sans-serif;
-            background-color: #111;
+            background: rgba(20, 20, 35, 0.8);
             padding: 18px 20px;
             font-size: 1.2rem;
             color: #fff;
@@ -169,7 +230,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            text-transform: uppercase;
+            text-transform: none;
             letter-spacing: 0.5px;
             border: none;
             width: 100%;
@@ -178,13 +239,13 @@
         }
 
         .faq-question:hover {
-            background-color: #1a1a1a;
+            background: rgba(40, 40, 60, 0.8);
         }
 
         .faq-question::after {
             content: "▼";
             font-size: 1rem;
-            color: #666;
+            color: #8888aa;
             transition: transform 0.3s;
         }
 
@@ -194,7 +255,7 @@
 
         .faq-answer {
             font-family: 'Russo One', sans-serif;
-            background-color: #1a1a1a;
+            background: rgba(15, 15, 30, 0.8);
             padding: 0 20px;
             max-height: 0;
             overflow: hidden;
@@ -202,7 +263,7 @@
             color: #ccc;
             font-size: 1rem;
             line-height: 1.6;
-            border-top: 0px solid #343a40;
+            border-top: 0px solid #4a4a6a;
         }
 
         .faq-answer.show {
@@ -215,7 +276,8 @@
         .button {
             display: block;
             font-family: 'Russo One', sans-serif;
-            background-color: #343a40;
+            background: rgba(60, 60, 90, 0.8);
+            backdrop-filter: blur(5px);
             color: #ffffff;
             text-decoration: none;
             padding: 18px 20px;
@@ -224,19 +286,20 @@
             text-align: center;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border: none;
             width: 100%;
             transition: all 0.3s;
             margin-bottom: 12px;
-            border: 2px solid #444;
+            border: 2px solid #6a6a8a;
             animation: pulse 3s infinite;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         .button:hover {
-            background-color: #495057;
-            border-color: #666;
+            background: rgba(80, 80, 120, 0.9);
+            border-color: #8a8aaa;
             transform: scale(1.02);
             animation: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
         }
 
         .button-small {
@@ -251,7 +314,6 @@
             margin: 20px 0;
         }
 
-        /* Кнопки с анимацией blink */
         .button-blink {
             animation: blink 2.5s infinite;
         }
@@ -260,61 +322,30 @@
             animation: none;
         }
 
-        /* Кнопки с анимацией pulse (уже есть) */
         .button-pulse {
             animation: pulse 2.5s infinite;
-        }
-
-        /* ========== БЛОК КОНТАКТОВ ========== */
-        .contacts-block {
-            background-color: #111;
-            border-radius: 30px;
-            padding: 30px 20px;
-            margin: 30px 0;
-            border: 2px solid #343a40;
         }
 
         /* ========== ФУТЕР ========== */
         footer {
             margin-top: 50px;
             padding-top: 25px;
-            border-top: 2px solid #222;
+            border-top: 2px solid #4a4a6a;
             text-align: center;
             font-family: 'Russo One', sans-serif;
-            color: #555;
+            color: #aaa;
             font-size: 0.9rem;
-        }
-
-        .time-block {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #111;
-            border-radius: 20px;
-            border: 1px solid #333;
-        }
-
-        .time-city {
-            color: #888;
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-
-        .time-value {
-            color: #fff;
-            font-size: 1.3rem;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
         }
 
         .footer-email {
             margin-top: 15px;
-            color: #666;
+            color: #888;
         }
 
         .footer-email a {
-            color: #777;
+            color: #aaa;
             text-decoration: none;
-            border-bottom: 1px dotted #444;
+            border-bottom: 1px dotted #6a6a8a;
         }
 
         .footer-email a:hover {
@@ -324,7 +355,7 @@
 
         .copyright {
             margin-top: 15px;
-            color: #444;
+            color: #666;
         }
     </style>
 </head>
@@ -349,67 +380,71 @@
         <!-- СТРЕЛКА ВНИЗ С АНИМАЦИЕЙ -->
         <div class="arrow-down">▼</div>
         
-        <!-- ЗАГОЛОВОК ВОПРОСОВ -->
-        <div class="section-title">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</div>
-        
-        <!-- ВОПРОСЫ И ОТВЕТЫ (АККОРДЕОН) -->
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">КТО ТАКОЙ KVACAN?</div>
-            <div class="faq-answer">kvacan — это Вячеслав. Человек, который решил не откладывать, а просто начать снимать. Здесь нет сценического образа или вымышленной личности. Всё по-настоящему.</div>
-        </div>
-        
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">ПОЧЕМУ В ССЫЛКАХ TVACAN?</div>
-            <div class="faq-answer">kvacan — это ник. То самое имя, которое появилось в самом начале и под которым человека знают в сети. Оно не менялось и не поменяется.<br><br>Но с адресами в социальных сетях всё устроено немного сложнее. Когда стали собирать все ссылки в одном месте, оказалось, что не везде можно использовать одно и то же имя. Где-то kvacan уже был занят, где-то оказался свободен, но хотелось, чтобы все адреса были одинаковыми. Чтобы человек зашёл на сайт, нажал на иконку и попал куда нужно, не запоминая два или три разных варианта.<br><br>Поэтому выбрали tvacan. Всего одна буква — и порядок. Теперь все соцсети ведут на один адрес. Никакой путаницы, никаких лишних вопросов.<br><br>А kvacan остаётся тем же, чем и был — ником, по которому человека знают. Всё просто.</div>
-        </div>
-        
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">ЗАЧЕМ СОЗДАН ЭТОТ САЙТ?</div>
-            <div class="faq-answer">Это не проект и не портфолио. Это просто навигатор, входная дверь во все социальные сети сразу. Минимум текста, максимум пользы — все ссылки в одном месте.</div>
-        </div>
-        
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">ЧТО ОСОБЕННОГО В КОНТЕНТЕ?</div>
-            <div class="faq-answer">Честность. Никаких постановочных студий, дорогих декораций или фальшивых эмоций. Только живые видео и фото, снятые в моменте. То, что окружает каждый день.</div>
-        </div>
-        
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">КАК ЧАСТО ВЫХОДИТ НОВЫЙ КОНТЕНТ?</div>
-            <div class="faq-answer">Контент появляется по мере того, как идёт жизнь. Маленькие шаги, регулярное движение, никаких жёстких дедлайнов — только искреннее желание делиться происходящим.</div>
-        </div>
-        
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">ЧЕМ КОНТЕНТ БУДЕТ ОТЛИЧАТЬСЯ В БУДУЩЕМ?</div>
-            <div class="faq-answer">С развитием автора будет расти и контент. Главная задача — чтобы и создателю, и зрителю было комфортно. Форматы могут меняться, но основа останется — живые эмоции и честность.</div>
-        </div>
-        
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">МОЖНО ЛИ ОБЩАТЬСЯ С АВТОРОМ?</div>
-            <div class="faq-answer">Да. Все социальные сети открыты, ссылки на них есть на этом сайте. Можно писать, комментировать, обсуждать — диалог приветствуется.</div>
-        </div>
-        
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">КАК МОЖНО ПОДДЕРЖАТЬ?</div>
-            <div class="faq-answer">Если контент заходит и хочется сказать спасибо делом — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше. Ссылка на донат тоже здесь.</div>
-        </div>
-        
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">ЭТО НАДОЛГО?</div>
-            <div class="faq-answer">Пока есть желание снимать и делиться — контент будет жить. А желание есть.</div>
+        <!-- БЛОК С ВОПРОСАМИ -->
+        <div class="block">
+            <div class="section-title">Часто задаваемые вопросы</div>
+            
+            <!-- ВОПРОСЫ И ОТВЕТЫ (АККОРДЕОН) -->
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Кто такой kvacan?</div>
+                <div class="faq-answer">kvacan — это Вячеслав. Человек, который решил не откладывать, а просто начать снимать. Здесь нет сценического образа или вымышленной личности. Всё по-настоящему.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Почему в ссылках tvacan?</div>
+                <div class="faq-answer">kvacan — это ник. То самое имя, которое появилось в самом начале и под которым человека знают в сети. Оно не менялось и не поменяется.<br><br>Но с адресами в социальных сетях всё устроено немного сложнее. Когда стали собирать все ссылки в одном месте, оказалось, что не везде можно использовать одно и то же имя. Где-то kvacan уже был занят, где-то оказался свободен, но хотелось, чтобы все адреса были одинаковыми. Чтобы человек зашёл на сайт, нажал на иконку и попал куда нужно, не запоминая два или три разных варианта.<br><br>Поэтому выбрали tvacan. Всего одна буква — и порядок. Теперь все соцсети ведут на один адрес. Никакой путаницы, никаких лишних вопросов.<br><br>А kvacan остаётся тем же, чем и был — ником, по которому человека знают. Всё просто.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Зачем создан этот сайт?</div>
+                <div class="faq-answer">Это не проект и не портфолио. Это просто навигатор, входная дверь во все социальные сети сразу. Минимум текста, максимум пользы — все ссылки в одном месте.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Что особенного в контенте?</div>
+                <div class="faq-answer">Честность. Никаких постановочных студий, дорогих декораций или фальшивых эмоций. Только живые видео и фото, снятые в моменте. То, что окружает каждый день.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Как часто выходит новый контент?</div>
+                <div class="faq-answer">Контент появляется по мере того, как идёт жизнь. Маленькие шаги, регулярное движение, никаких жёстких дедлайнов — только искреннее желание делиться происходящим.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Чем контент будет отличаться в будущем?</div>
+                <div class="faq-answer">С развитием автора будет расти и контент. Главная задача — чтобы и создателю, и зрителю было комфортно. Форматы могут меняться, но основа останется — живые эмоции и честность.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Можно ли общаться с автором?</div>
+                <div class="faq-answer">Да. Все социальные сети открыты, ссылки на них есть на этом сайте. Можно писать, комментировать, обсуждать — диалог приветствуется.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Как можно поддержать?</div>
+                <div class="faq-answer">Если контент заходит и хочется сказать спасибо делом — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше. Ссылка на донат тоже здесь.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Это надолго?</div>
+                <div class="faq-answer">Пока есть желание снимать и делиться — контент будет жить. А желание есть.</div>
+            </div>
         </div>
         
         <!-- СТРЕЛКА ВНИЗ -->
         <div class="arrow-down">▼</div>
         
-        <!-- ЗАГОЛОВОК СОЦСЕТЕЙ -->
-        <div class="section-title">СОЦИАЛЬНЫЕ СЕТИ</div>
-        <div class="section-subtitle">ПЕРЕХОДИ, СМОТРИ, ПОДПИСЫВАЙСЯ</div>
-        
-        <!-- КНОПКИ СОЦСЕТЕЙ (БЕЗ СМАЙЛИКОВ) -->
-        <div class="button-group">
-            <a href="https://t.me/tvacan" class="button button-blink">TELEGRAM</a>
-            <a href="https://instagram.com/tvacan/" class="button button-pulse">INSTAGRAM</a>
-            <a href="https://www.tiktok.com/@kvacon" class="button button-blink">TIKTOK</a>
+        <!-- БЛОК СОЦИАЛЬНЫХ СЕТЕЙ -->
+        <div class="block">
+            <div class="section-title">Социальные сети</div>
+            <div class="section-subtitle">Переходи, смотри, подписывайся</div>
+            
+            <!-- КНОПКИ СОЦСЕТЕЙ -->
+            <div class="button-group">
+                <a href="https://t.me/tvacan" class="button button-blink">TELEGRAM</a>
+                <a href="https://instagram.com/tvacan/" class="button button-pulse">INSTAGRAM</a>
+                <a href="https://www.tiktok.com/@kvacon" class="button button-blink">TIKTOK</a>
+            </div>
         </div>
         
         <!-- СТРЕЛКА ВНИЗ -->
@@ -417,35 +452,31 @@
         
         <!-- БЛОК КОНТАКТОВ -->
         <div class="contacts-block">
-            <div class="section-subtitle">ПО ВОПРОСАМ РЕКЛАМЫ И СОТРУДНИЧЕСТВА</div>
+            <div class="section-title">Контакты для связи</div>
+            <div class="section-subtitle">По вопросам рекламы и сотрудничества</div>
             <div class="button-group">
                 <a href="https://t.me/kvacan" class="button button-small button-pulse">TELEGRAM</a>
-                <a href="mailto:tvacan@internet.ru" class="button button-small button-blink">ПОЧТА</a>
+                <a href="mailto:tvacan@internet.ru" class="button button-small button-blink">EMAIL</a>
             </div>
         </div>
         
         <!-- СТРЕЛКА ВНИЗ -->
         <div class="arrow-down">▼</div>
         
-        <!-- ЗАГОЛОВОК ПОДДЕРЖКИ -->
-        <div class="section-title">ПОДДЕРЖКА</div>
-        <div class="section-subtitle">ЕСЛИ ЗАХОДИТ — МОЖНО ПОДДЕРЖАТЬ ДОНАТОМ. ЛЮБАЯ ПОМОЩЬ ГРЕЕТ И МОТИВИРУЕТ СНИМАТЬ ДАЛЬШЕ.</div>
-        
-        <!-- КНОПКИ ДОНАТОВ -->
-        <div class="button-group">
-            <a href="https://pay.cloudtips.ru/p/a64a46d8" class="button button-small button-pulse">DONATION KVACAN</a>
-            <a href="https://finance.ozon.ru/apps/sbp/ozonbankpay/019a9ca8-77bb-7f0f-a532-53c7dca11b0b" class="button button-small button-blink">DONATION KVACAN</a>
+        <!-- БЛОК ПОДДЕРЖКИ -->
+        <div class="block">
+            <div class="section-title">Поддержка</div>
+            <div class="section-subtitle">Если заходит — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше.</div>
+            
+            <!-- КНОПКИ ДОНАТОВ -->
+            <div class="button-group">
+                <a href="https://pay.cloudtips.ru/p/a64a46d8" class="button button-small button-pulse">DONATION KVACAN</a>
+                <a href="https://finance.ozon.ru/apps/sbp/ozonbankpay/019a9ca8-77bb-7f0f-a532-53c7dca11b0b" class="button button-small button-blink">DONATION KVACAN</a>
+            </div>
         </div>
         
-        <!-- ФУТЕР С ВРЕМЕНЕМ -->
+        <!-- ФУТЕР -->
         <footer>
-            <div class="time-block">
-                <div class="time-city">ИРКУТСК (IRKT)</div>
-                <div class="time-value" id="irkutsk-time">--:--:--</div>
-                <div class="time-city">МОСКВА (MSK)</div>
-                <div class="time-value" id="moscow-time">--:--:--</div>
-            </div>
-            
             <div class="copyright">© 2026 kvacan, Все права защищены.</div>
             <div class="footer-email">
                 <a href="mailto:tvacan@internet.ru">tvacan@internet.ru</a>
@@ -460,30 +491,6 @@
             var answer = element.nextElementSibling;
             answer.classList.toggle('show');
         }
-        
-        // Функция для обновления времени
-        function updateTime() {
-            const now = new Date();
-            
-            // Иркутск (UTC+8)
-            const irkutskTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Irkutsk' }));
-            const irkutskHours = String(irkutskTime.getHours()).padStart(2, '0');
-            const irkutskMinutes = String(irkutskTime.getMinutes()).padStart(2, '0');
-            const irkutskSeconds = String(irkutskTime.getSeconds()).padStart(2, '0');
-            document.getElementById('irkutsk-time').textContent = `${irkutskHours}:${irkutskMinutes}:${irkutskSeconds}`;
-            
-            // Москва (UTC+3)
-            const moscowTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
-            const moscowHours = String(moscowTime.getHours()).padStart(2, '0');
-            const moscowMinutes = String(moscowTime.getMinutes()).padStart(2, '0');
-            const moscowSeconds = String(moscowTime.getSeconds()).padStart(2, '0');
-            document.getElementById('moscow-time').textContent = `${moscowHours}:${moscowMinutes}:${moscowSeconds}`;
-        }
-        
-        // Обновляем время каждую секунду
-        updateTime();
-        setInterval(updateTime, 1000);
     </script>
 </body>
 </html>
-
