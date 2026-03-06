@@ -1,371 +1,46 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html prefix="og: http://ogp.me/ns#" lang="ru" data-format-date="d.m.Y" data-format-datetime="d.m.Y H:i">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kvacan</title>
-    <style>
-        /* ========== СБРОС ========== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+	<title>kvacan</title>
+				<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/> <!-- viewport-fit=cover -->
 
-        /* ========== ОСНОВНЫЕ СТИЛИ ========== */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0a0a0a;
-            color: #ffffff;
-            line-height: 1.5;
-            font-weight: 500;
-        }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 40px 24px 20px 24px;
-        }
+	<meta name="HandheldFriendly" content="true">
+	<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+	
+						<link type='text/css' rel='stylesheet' href='//fr.x.taplink.st/s/css/frontend.css?1.2.10196'>
+			
+	
 
-        /* ========== ШАПКА / АВАТАР ========== */
-        .hero {
-            text-align: center;
-            margin-bottom: 48px;
-        }
+	<link rel="icon" href="https://taplink.st/a/5/8/4/d/daec4f.jpg?1">
 
-        .avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #333;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-            display: block;
-            margin: 0 auto 20px auto;
-        }
 
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-bottom: 8px;
-            color: #fff;
-            text-transform: uppercase;
-            line-height: 1.1;
-        }
+	<link rel="apple-touch-icon" sizes="300x300" href="https://taplink.st/a/5/8/4/d/daec4f.jpg?1" />
+	<link rel="canonical" href="https://taplink.cc/kvacan" />
+	<meta name="format-detection" content="telephone=no,email=no,address=no" />
 
-        .subhead {
-            font-size: 1rem;
-            color: #aaa;
-            letter-spacing: 1px;
-        }
+	
 
-        /* ========== РАЗДЕЛЫ ========== */
-        .section {
-            margin: 48px 0;
-        }
-
-        .section-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 24px;
-            color: #fff;
-            letter-spacing: -0.01em;
-            border-left: 4px solid #fff;
-            padding-left: 16px;
-        }
-
-        /* ========== ВОПРОСЫ И ОТВЕТЫ ========== */
-        .faq-item {
-            margin-bottom: 28px;
-            border-bottom: 1px solid #222;
-            padding-bottom: 24px;
-        }
-
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-
-        .question {
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-
-        .answer {
-            color: #bbb;
-            font-size: 1rem;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
-        /* ========== СОЦИАЛЬНЫЕ СЕТИ (КНОПКИ-ССЫЛКИ) ========== */
-        .social-block {
-            background: #111;
-            border-radius: 28px;
-            padding: 32px 24px;
-            margin: 40px 0;
-            border: 1px solid #222;
-            text-align: center;
-        }
-
-        .social-description {
-            color: #888;
-            margin-bottom: 28px;
-            font-size: 1rem;
-            letter-spacing: 0.5px;
-        }
-
-        .social-links {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .social-link-item {
-            width: 100%;
-        }
-
-        .social-link {
-            display: block;
-            background: transparent;
-            border: 2px solid #333;
-            color: #fff;
-            text-decoration: none;
-            padding: 18px 20px;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 1.3rem;
-            letter-spacing: 1px;
-            transition: all 0.2s;
-            text-transform: uppercase;
-        }
-
-        .social-link:hover {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-        }
-
-        /* ========== КОНТАКТЫ ========== */
-        .contacts-block {
-            background: #111;
-            border-radius: 28px;
-            padding: 32px 24px;
-            margin: 40px 0;
-            border: 1px solid #222;
-        }
-
-        .contacts-title {
-            color: #888;
-            margin-bottom: 24px;
-            font-size: 1rem;
-            text-align: center;
-        }
-
-        .contact-item {
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        .contact-link {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.3rem;
-            letter-spacing: 0.5px;
-            border-bottom: 1px dotted #444;
-            padding-bottom: 4px;
-            text-transform: uppercase;
-        }
-
-        .contact-link:hover {
-            border-bottom-color: #fff;
-        }
-
-        /* ========== ПОДДЕРЖКА ========== */
-        .donate-block {
-            background: #111;
-            border-radius: 28px;
-            padding: 32px 24px;
-            margin: 40px 0;
-            border: 1px solid #222;
-            text-align: center;
-        }
-
-        .donate-text {
-            color: #bbb;
-            margin-bottom: 28px;
-            font-size: 1rem;
-            line-height: 1.6;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .donate-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .donate-option {
-            display: block;
-            background: transparent;
-            border: 2px solid #333;
-            color: #fff;
-            text-decoration: none;
-            padding: 16px 20px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.2s;
-        }
-
-        .donate-option:hover {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-        }
-
-        /* ========== ФУТЕР ========== */
-        footer {
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid #222;
-            text-align: center;
-            color: #555;
-            font-size: 0.9rem;
-        }
-
-        .footer-email {
-            margin-top: 12px;
-            color: #666;
-        }
-
-        .footer-email a {
-            color: #888;
-            text-decoration: none;
-            border-bottom: 1px dotted #444;
-        }
-
-        .footer-email a:hover {
-            color: #fff;
-            border-bottom-color: #fff;
-        }
-
-        .taplink-credit {
-            margin-top: 20px;
-            color: #444;
-            font-size: 0.8rem;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <!-- ШАПКА С АВАТАРОМ (ФОТО ДОБАВЛЕНО) -->
-        <div class="hero">
-            <img class="avatar" src="https://taplink.st/a/5/8/4/d/daec4f.jpg?1" alt="kvacan">
-            <h1>KVACAN</h1>
-            <div class="subhead">Вячеслав</div>
-        </div>
-
-        <!-- ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ -->
-        <div class="section">
-            <div class="section-title">Часто задаваемые вопросы</div>
-            
-            <div class="faq-item">
-                <div class="question">Кто такой kvacan?</div>
-                <div class="answer">kvacan — это ник. Имя, под которым всё начиналось. Вячеслав.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="question">Почему в ссылках tvacan, если автор представляется как kvacan?</div>
-                <div class="answer">kvacan — ник, он не меняется. Но чтобы все ссылки на соцсети были под одним именем и никого не путать, добавили букву t — получилось tvacan. Все соцсети ведут на один адрес, а ник остаётся тем же.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="question">Зачем создан этот сайт?</div>
-                <div class="answer">Это просто навигатор. Все ссылки в одном месте. Минимум текста, максимум пользы.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="question">Что особенного в контенте?</div>
-                <div class="answer">Честность. Живые видео и фото без постановок.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="question">Как часто выходит новый контент?</div>
-                <div class="answer">По мере того, как идёт жизнь. Без жёстких дедлайнов.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="question">Чем контент будет отличаться в будущем?</div>
-                <div class="answer">Будет расти вместе с автором. Основа — живые эмоции и честность.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="question">Можно ли общаться с автором?</div>
-                <div class="answer">Да. Соцсети открыты, ссылки ниже. Диалог приветствуется.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="question">Как можно поддержать?</div>
-                <div class="answer">Если контент заходит — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="question">Это надолго?</div>
-                <div class="answer">Пока есть желание снимать и делиться — контент будет жить. А желание есть.</div>
-            </div>
-        </div>
-
-        <!-- СОЦИАЛЬНЫЕ СЕТИ -->
-        <div class="social-block">
-            <div class="social-description">Переходи, смотри, подписывайся.</div>
-            <div class="social-links">
-                <a href="#" class="social-link">KVACAN</a>
-                <a href="#" class="social-link">KVACAN</a>
-                <a href="#" class="social-link">KVACAN</a>
-            </div>
-        </div>
-
-        <!-- КОНТАКТЫ ДЛЯ СВЯЗИ -->
-        <div class="contacts-block">
-            <div class="contacts-title">По вопросам рекламы и сотрудничества:</div>
-            <div class="contact-item">
-                <a href="#" class="contact-link">KVACAN</a>
-            </div>
-            <div class="contact-item">
-                <a href="#" class="contact-link">KVACAN</a>
-            </div>
-        </div>
-
-        <!-- ПОДДЕРЖКА -->
-        <div class="donate-block">
-            <div class="donate-text">
-                Если заходит — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше.
-            </div>
-            <div class="donate-options">
-                <a href="#" class="donate-option">DONATION KVACAN</a>
-                <a href="#" class="donate-option">DONATION KVACAN</a>
-            </div>
-        </div>
-
-        <!-- ФУТЕР -->
-        <footer>
-            <div>© 2026 kvacan, Все права защищены.</div>
-            <div class="footer-email">
-                <a href="mailto:tvacan@internet.ru">tvacan@internet.ru</a>
-            </div>
-            <div class="taplink-credit">
-                Сделано на Taplink.ru
-            </div>
-        </footer>
-    </div>
-</body>
-</html>
+	
 
 
 
+	<meta name="referrer" content="always">
+
+
+
+	<link rel="image_src" href="https://taplink.st/a/5/8/4/d/daec4f.jpg?1" />
+	
+	<meta property="og:image" content="https://taplink.st/a/5/8/4/d/daec4f.jpg?1">
+	<meta property="og:type" content="website"/>
+	<meta property="og:title" content="kvacan"/>
+		<meta property="og:url" content="https://taplink.cc/kvacan"/>
+	<meta property="og:site_name" content="Taplink"/>
+
+	
+
+
+	<link rel="manifest" href="/770a272c14347343.webmanifest"></head> <body> <div class="main base-theme main-theme">    <style> html {min-height: 100%}</style> <script>
+	window.account = {"account_id":12478303,"language_id":1,"language_code":"ru","language_code_account":"ru","main_page_id":17663517,"profile_id":14347343,"is_hidelink":false,"is_plus":0,"is_trial":0,"is_full_trial":0,"tariff_current":"pro","utc_timezone":3,"currency_id":1,"plan_until":1774051200,"nickname":"kvacan","has_nickname":1,"profile_link":"https://taplink.cc/kvacan","theme":{"heading":{"color":"#ffffff","transform":"u","weight":2},"screen":{"color":"#ffffff","bg":null,"gradient":null},"avatar":{"title":{"color":"#ffffff"},"bio":{"color":"#ffffff"}},"link":{"bg":"#343a40","transform":"u","weight":2},"bg":{"size":"adaptive","picture":{"link":"/s/i/themes/570944.jpg","width":2048,"height":450},"height":450,"color":"#000000"},"block":{"pictures":{"title":"#ffffff","text":"#ffffff","button_text":"#ffffff","bg":"#343a40","nav":"#ffffff"}},"sections":{"_":1,"p":{"bg":{"picture":null,"color":"#171717"}}}},"menu":null,"menu_items":null,"addons":{"codes":[{"cb":"yandexMetrikaInit","cookie":"analytics","data":{"id":44929738,"simple":true}}]},"locales":{"pages":"ru"},"avatar":{"path":"5/8/4/d/","title":"kvacan","bio":"","a":"65:jpg?1","is_hide_text":1},"currency":{"title":"₽","code":"RUB","format":"%p %c","precision":2},"products":[],"username":"kvacan","current_page_id":17663517,"widgets":[],"custom_domain":false,"domain":"taplink.ru","client":{"country":"fr","timestamp":1772776416},"locale":{"formats":{"date":"d.m.Y"},"current":"ru","direction":"ltr"},"number":{"decimal":".","thousands":" ","precision":2},"weight":{"decimal":".","thousands":" ","precision":3},"ts":"dab0810f","html":""};
+	window.data = {"page_id":17663517,"fields":[{"section":null,"items":[{"options":[],"block_type_id":8,"block_type_name":"avatar","block_id":"bc07f99e8f5b","addon_target":null},{"options":{"font":23,"text":"kvacan","text_size":"h3","text_align":"center"},"block_type_id":1,"block_type_name":"text","block_id":"b731fe429bf3","addon_target":null},{"options":{"icon":"icofont/star-alt-1","fading":true},"block_type_id":5,"block_type_name":"break","block_id":"b4728690b7b0","addon_target":null},{"block_id":80993692,"options":{"list":[{"p":{"filename":"d/7/4/6/69250549.jpg?0","width":1080,"height":1080},"s":"","t":"","link":{"title":"","type":"link","value":""}},{"p":{"filename":"3/f/f/4/69250557.jpg?0","width":1080,"height":1080},"s":"","t":"","link":{"title":"","type":"link","value":null}},{"p":{"filename":"4/f/f/b/69250559.jpg?0","width":1080,"height":1080},"s":"","t":"","link":{"title":"","type":"link","value":null}}]},"block_type_id":9,"block_type_name":"pictures","addon_target":null,"hash":"bb4c07","stat":["6b3348.0","46ebad.1","f9eb5e.2"]},{"options":{"icon":"icofont/arrow-down","fading":true},"block_type_id":5,"block_type_name":"break","block_id":"b115c736bdec","addon_target":null}]},{"section":{"padding":{"bottom":0},"blocks":["bb7aac6f94a4"],"id":null,"section_id":17035183},"items":[{"options":{"font":23,"text":"Часто задаваемые вопросы","text_align":"center"},"block_type_id":1,"block_type_name":"text","block_id":"bb7aac6f94a4","addon_target":null}]},{"section":{"blocks":["b404f38a0ec2"],"id":null,"section_id":17035186},"items":[{"options":{"once":true,"design":{"on":1,"text":{"font":23},"title":{"font":23}},"fields":[{"text":"kvacan — это Вячеслав. Человек, который решил не откладывать, а просто начать снимать. Здесь нет сценического образа или вымышленной личности. Всё по-настоящему.","title":"Кто такой kvacan?","opened":true},{"text":"Хороший вопрос. Сейчас объясним.\n\nkvacan — это ник. То самое имя, которое появилось в самом начале и под которым человека знают в сети. Оно не менялось и не поменяется.\n\nНо с адресами в социальных сетях всё устроено немного сложнее. Когда стали собирать все ссылки в одном месте, оказалось, что не везде можно использовать одно и то же имя. Где-то kvacan уже был занят, где-то оказался свободен, но хотелось, чтобы все адреса были одинаковыми. Чтобы человек зашёл на сайт, нажал на иконку и попал куда нужно, не запоминая два или три разных варианта.\n\nПоэтому выбрали tvacan. Всего одна буква — и порядок. Теперь все соцсети ведут на один адрес. Никакой путаницы, никаких лишних вопросов.\n\nА kvacan остаётся тем же, чем и был — ником, по которому человека знают. Всё просто.\n","title":"Почему в ссылках tvacan, если автор представляется как kvacan?","opened":true},{"text":"Это не проект и не портфолио. Это просто навигатор, входная дверь во все социальные сети сразу. Минимум текста, максимум пользы — все ссылки в одном месте.","title":"Зачем создан этот сайт?","opened":true},{"text":"Честность. Никаких постановочных студий, дорогих декораций или фальшивых эмоций. Только живые видео и фото, снятые в моменте. То, что окружает каждый день.","title":"Что особенного в контенте?","opened":true},{"text":"Контент появляется по мере того, как идёт жизнь. Маленькие шаги, регулярное движение, никаких жёстких дедлайнов — только искреннее желание делиться происходящим.\n","title":"Как часто выходит новый контент?","opened":true},{"text":"С развитием автора будет расти и контент. Главная задача — чтобы и создателю, и зрителю было комфортно. Форматы могут меняться, но основа останется — живые эмоции и честность.","title":"Чем контент будет отличаться в будущем?","opened":true},{"text":"Да. Все социальные сети открыты, ссылки на них есть на этом сайте. Можно писать, комментировать, обсуждать — диалог приветствуется.","title":"Можно ли общаться с автором?","opened":true},{"text":"Если контент заходит и хочется сказать спасибо делом — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше. Ссылка на донат тоже здесь.","title":"Как можно поддержать?","opened":true},{"text":"Пока есть желание снимать и делиться — контент будет жить. А желание есть.","title":"Это надолго?","opened":true}],"indicator":{"style":"arrow"}},"block_type_id":14,"block_type_name":"collapse","block_id":"b404f38a0ec2","addon_target":null}]},{"section":null,"items":[{"options":{"icon":"icofont/arrow-down","fading":true},"block_type_id":5,"block_type_name":"break","block_id":"b567efe1b893","addon_target":null}]},{"section":{"heading":{"font":23},"link":{"font":23},"blocks":["80993591","80993587","b01a3f7b8991"],"id":null,"section_id":17023530},"items":[{"options":{"font":23,"text":"Социальные сети\n‌\n‌Переходи, смотри, подписывайся.","text_align":"center"},"block_type_id":1,"block_type_name":"text","block_id":"b01a3f7b8991","addon_target":null},{"block_id":80993587,"options":{"items":[{"n":"telegram","t":"kvacan","v":"tvacan","link":{"b":"https://t.me/tvacan","a":{"default":"tg://resolve?domain=tvacan"}},"i":"tg"}],"animation":"blink","messenger_style":{"colors":{"bg":"#495057"},"design":"custom"}},"block_type_id":3,"block_type_name":"messenger","addon_target":["link"],"hash":"3907cb","slot":{"telegram":2},"stat":{"telegram":"5ba2f3.2.telegram"}},{"block_id":80993591,"options":{"items":[{"n":"ig","t":"kvacan","v":"tvacan","link":{"b":"https://instagram.com/tvacan/","a":{"ios":"instagram://user?username=tvacan","android":"intent://www.instagram.com/tvacan/#Intent;scheme=instagram;end"}},"i":"ig"}],"animation":"blink","socials_style":{"colors":{"bg":"#495057"},"design":"custom"}},"block_type_id":6,"block_type_name":"socialnetworks","addon_target":["link"],"hash":"428ed9","slot":{"ig":6},"stat":{"ig":"ed2c36.6.instagram"}}]},{"section":{"link":{"font":23},"padding":{"top":0},"blocks":["80993588","b93ed2702e1c"],"id":null,"section_id":17023525},"items":[{"block_id":80993588,"options":{"animation":"blink","socials_style":{"design":"custom","colors":{"bg":"#495057"}},"items":[{"n":"tk","t":"KVACAN","v":"@kvacon","link":{"b":"https://www.tiktok.com/@kvacon"},"i":"tk"}]},"block_type_id":6,"block_type_name":"socialnetworks","addon_target":["link"],"hash":"6d4d79","slot":{"tk":11},"stat":{"tk":"35e3b5.11.tiktok"}},{"options":{"icon":"icofont/arrow-down","fading":true,"break_size":45},"block_type_id":5,"block_type_name":"break","block_id":"b93ed2702e1c","addon_target":null}]},{"section":{"link":{"font":23},"padding":{"top":0},"blocks":["80993592","b622f730f85b"],"id":null,"section_id":17023672},"items":[{"options":{"font":23,"text":"Контакты для связи\n‌\nПо вопросам рекламы и сотрудничества:","text_align":"center"},"block_type_id":1,"block_type_name":"text","block_id":"b622f730f85b","addon_target":null},{"block_id":80993592,"options":{"items":[{"n":"telegram","t":"kvacan","v":"kvacan","link":{"b":"https://t.me/kvacan","a":{"default":"tg://resolve?domain=kvacan"}},"i":"tg"}],"animation":"blink","messenger_style":{"design":"custom","colors":{"bg":"#495057"}}},"block_type_id":3,"block_type_name":"messenger","addon_target":["link"],"hash":"f819c9","slot":{"telegram":2},"stat":{"telegram":"45ac1b.2.telegram"}}]},{"section":{"link":{"bg":"#495057","font":23},"padding":{"top":0,"bottom":0},"blocks":["80993589"],"id":null,"section_id":17023701},"items":[{"block_id":80993589,"options":{"title":"kvacan","type":"email","value":"tvacan@internet.ru:","animation":"blink","thumb":{"t":"i","i":"icofont/ui-email"}},"block_type_id":2,"block_type_name":"link","addon_target":["form","link"],"stat":"a67968"}]},{"section":null,"items":[{"options":{"icon":"icofont/arrow-down","fading":true,"break_size":45},"block_type_id":5,"block_type_name":"break","block_id":"b39f76555d70","addon_target":null}]},{"section":{"link":{"bg":"#495057","font":23,"subtitle":{"font":23}},"padding":{"top":0},"blocks":["80993590","bfcbb5d67e1a"],"id":null,"section_id":17023762},"items":[{"options":{"font":23,"text":"Поддержка\n\nЕсли заходит — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше.","text_align":"center"},"block_type_id":1,"block_type_name":"text","block_id":"bfcbb5d67e1a","addon_target":null},{"block_id":80993590,"options":{"title":"Donation kvacan","subtitle":"donation option 1","value":"https://pay.cloudtips.ru/p/a64a46d8","animation":"pulse","thumb":{"t":"p","p":{"filename":"4/c/0/5/69307247.jpg?0","width":110,"height":110}}},"block_type_id":2,"block_type_name":"link","addon_target":["form","link"],"stat":"002580"}]},{"section":{"link":{"font":23,"subtitle":{"font":23}},"padding":{"top":0},"blocks":["81022898"],"id":null,"section_id":17075842},"items":[{"block_id":81022898,"options":{"title":"Donation kvacan","subtitle":"donation option 2","value":"https://finance.ozon.ru/apps/sbp/ozonbankpay/019a9ca8-77bb-7f0f-a532-53c7dca11b0b","animation":"pulse","thumb":{"t":"p","p":{"filename":"c/1/6/3/69307203.jpg?0","width":190,"height":190}}},"block_type_id":2,"block_type_name":"link","addon_target":["form","link"],"stat":"8b1b3a"}]},{"section":null,"items":[{"options":{"icon":0,"fading":true,"fullwidth":true,"break_size":45},"block_type_id":5,"block_type_name":"break","block_id":"b75e0753b94a","addon_target":null}]},{"section":{"padding":{"top":0,"bottom":0},"blocks":["b7197e42480b"],"id":null,"section_id":17035230},"items":[{"options":{"font":23,"text":"© 2026 kvacan, Все права защищены.\n‌tvacan@internet.ru","text_align":"center"},"block_type_id":1,"block_type_name":"text","block_id":"b7197e42480b","addon_target":null}]}],"options":[]};
+</script> <script type='text/javascript' src='//fr.x.taplink.st/s/js/frontend.js?1.2.10196'></script> <div class="page vue"> <router-view></router-view> </div> </div> </body> </html>
