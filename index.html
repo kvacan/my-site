@@ -6,6 +6,7 @@
     <title>kvacan — официальный сайт</title>
     <link rel="icon" href="https://taplink.st/a/5/8/4/d/daec4f.jpg?1">
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
         body {
@@ -133,10 +134,94 @@
         .chat-menu-item { display: block; background: #2a1a3a; padding: 12px; border-radius: 40px; text-align: center; color: #fff; text-decoration: none; border: 1px solid #b294ff; margin-bottom: 8px; }
         footer { margin-top: 40px; padding-top: 20px; border-top: 2px solid #b294ff; text-align: center; color: #aaa; font-size: 0.8rem;}
         .footer-email a { color: #b294ff; text-decoration: none; }
-        .gallery-hint { text-align: center; color: #b294ff; font-size: 0.8rem; margin-top: 5px;}
+        .gallery-hint { text-align: center; color: #b294ff; font-size: 0.8rem; margin-top: 5px; }
+        
+        .admin-panel {
+            background: #1a0f2a;
+            border-radius: 30px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 2px solid #b294ff;
+            display: none;
+        }
+        .admin-panel.visible { display: block; }
+        .admin-form input, .admin-form textarea {
+            width: 100%;
+            background: #2a1a3a;
+            border: 1px solid #b294ff;
+            padding: 12px;
+            border-radius: 30px;
+            color: white;
+            margin-bottom: 15px;
+        }
+        .admin-form textarea { min-height: 80px; }
+        .admin-btn {
+            background: #3a2555;
+            border: 2px solid #b294ff;
+            padding: 12px;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 5, 20, 0.98);
+            z-index: 3000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+        .login-box {
+            background: #1a0f2a;
+            border: 2px solid #b294ff;
+            border-radius: 40px;
+            padding: 35px 25px;
+            width: 300px;
+            text-align: center;
+        }
+        .login-box input {
+            width: 100%;
+            background: #2a1a3a;
+            border: 1px solid #b294ff;
+            padding: 12px;
+            border-radius: 50px;
+            color: white;
+            margin: 12px 0;
+        }
+        .logout-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #2a1a3a;
+            border: 2px solid #b294ff;
+            border-radius: 40px;
+            padding: 8px 16px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 1100;
+            display: none;
+        }
+        .logout-btn.visible { display: block; }
     </style>
 </head>
 <body>
+
+<div id="loginOverlay" class="login-overlay">
+    <div class="login-box">
+        <h3>🔐 Вход в админ-панель</h3>
+        <input type="text" id="adminLogin" placeholder="Логин" value="kvacan">
+        <input type="password" id="adminPassword" placeholder="Пароль">
+        <button class="login-btn" onclick="attemptLogin()">Войти</button>
+    </div>
+</div>
+
+<div class="logout-btn" id="logoutBtn" onclick="logout()">🚪 Выйти</div>
 
 <div class="modal" id="photoModal" onclick="closeModal()">
     <span class="modal-close" onclick="closeModal()">×</span>
@@ -157,7 +242,6 @@
     <h1>KVACAN</h1>
     <div class="divider">✦ ✦ ✦</div>
     
-    <!-- ГАЛЕРЕЯ -->
     <div class="gallery-container">
         <div class="gallery-scroll">
             <div class="gallery-item" style="background-image:url('https://taplink.st/p/d/7/4/6/69250549.jpg?0')" onclick="openModal(this)"></div>
@@ -170,13 +254,22 @@
     
     <div class="arrow-down">▼</div>
     
-    <!-- БЛОК ПОСТОВ (из Google Sheets) -->
     <div class="posts-block">
         <div class="section-title">📢 Актуальное</div>
         <div id="postsContainer"><div class="loading">Загрузка постов... ✨</div></div>
     </div>
     
-    <!-- FAQ -->
+    <div id="adminPanel" class="admin-panel">
+        <div class="section-title">🔐 Добавить пост</div>
+        <div class="admin-form">
+            <input type="text" id="postTitle" placeholder="Заголовок">
+            <textarea id="postText" placeholder="Текст поста"></textarea>
+            <input type="text" id="postVideoUrl" placeholder="Ссылка на видео (необязательно)">
+            <button class="admin-btn" onclick="publishPost()">📌 Опубликовать</button>
+        </div>
+        <div class="section-subtitle">⚠️ Посты сохраняются в браузере. Для публикации для всех нужно дополнительное хранилище.</div>
+    </div>
+    
     <div class="block">
         <div class="section-title">Часто задаваемые вопросы</div>
         <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Кто такой kvacan?</div><div class="faq-answer">kvacan — это Вячеслав. Человек, который снимает жизнь без фальши.</div></div>
@@ -212,63 +305,43 @@
 </div>
 
 <script>
-// ==================== НАСТРОЙКИ ====================
-// Ваш ID таблицы (уже вставлен!)
-const GOOGLE_SHEETS_ID = "2PACX-1vQyoqYqHYUzciOSS6OVkOEre4IiCREseQZ-0c9d-eBg-0inQgaHC1tEfvyInMG4gJL5XK2OIrUmtMAG";
-// =================================================
+// ==================== ВАШ URL ИЗ GOOGLE APPS SCRIPT ====================
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzzqxYSY-rMWZkR4FbuMFNoVl1eaMgjkNy4ccIgt38qKVJD6T99QRxREzPg7s3V1qb_nw/exec";
+// ========================================================================
 
-// Загрузка постов из Google Sheets
+let isAdmin = false;
+const ADMIN_LOGIN = "kvacan";
+const PASSWORD_HASH = "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"; // "kvacan2025!"
+
+// Загрузка постов из Google Sheets через Apps Script
 async function loadPosts() {
     try {
-        const csvUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEETS_ID}/gviz/tq?tqx=out:csv`;
-        const response = await fetch(csvUrl);
-        if (!response.ok) throw new Error('Ошибка загрузки');
+        const response = await fetch(GOOGLE_SCRIPT_URL);
         
-        const csvText = await response.text();
-        const rows = csvText.split('\n').slice(1);
-        const posts = [];
-        
-        for (let row of rows) {
-            let parts = [];
-            let inQuotes = false;
-            let current = '';
-            
-            for (let i = 0; i < row.length; i++) {
-                const char = row[i];
-                if (char === '"') {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    parts.push(current.trim());
-                    current = '';
-                } else {
-                    current += char;
-                }
-            }
-            parts.push(current.trim());
-            parts = parts.map(p => p.replace(/^"|"$/g, '').replace(/""/g, '"'));
-            
-            if (parts.length >= 3 && parts[0] && parts[1]) {
-                posts.push({
-                    date: parts[0],
-                    title: parts[1],
-                    text: parts[2],
-                    videoUrl: parts[3] || ''
-                });
-            }
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
         }
         
-        posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-        renderPosts(posts);
+        const posts = await response.json();
+        
+        // Проверяем, что пришел массив
+        if (Array.isArray(posts)) {
+            renderPosts(posts);
+        } else {
+            console.error('Неверный формат данных:', posts);
+            document.getElementById('postsContainer').innerHTML = 
+                '<div class="section-subtitle" style="color:#ff8888;">❌ Ошибка: неверный формат данных от сервера</div>';
+        }
     } catch(e) {
+        console.error('Ошибка загрузки:', e);
         document.getElementById('postsContainer').innerHTML = 
-            '<div class="section-subtitle" style="color:#ff8888;">❌ Ошибка загрузки. Проверьте интернет.</div>';
-        console.error(e);
+            '<div class="section-subtitle" style="color:#ff8888;">❌ Ошибка загрузки постов. Проверьте настройки скрипта.</div>';
     }
 }
 
 function renderPosts(posts) {
     const container = document.getElementById('postsContainer');
-    if (!posts.length) {
+    if (!posts || posts.length === 0) {
         container.innerHTML = '<div class="section-subtitle">📭 Пока нет постов. Добавьте их в Google Таблицу!</div>';
         return;
     }
@@ -294,7 +367,7 @@ function renderPosts(posts) {
         
         return `
             <div class="post-item">
-                <div class="post-date">📅 ${post.date}</div>
+                <div class="post-date">📅 ${post.date || 'дата не указана'}</div>
                 <div class="post-title">${escapeHtml(post.title)}</div>
                 <div class="post-content">${textWithLinks}</div>
                 ${videoHtml}
@@ -313,12 +386,85 @@ function escapeHtml(str) {
     });
 }
 
+// Админ-панель (для демонстрации, посты сохраняются в localStorage)
+async function publishPost() {
+    if (!isAdmin) {
+        alert('Доступ запрещен. Войдите в админ-панель (Shift + A)');
+        return;
+    }
+    
+    const title = document.getElementById('postTitle').value.trim();
+    const text = document.getElementById('postText').value.trim();
+    const videoUrl = document.getElementById('postVideoUrl').value.trim();
+    
+    if (!title || !text) {
+        alert('Заполните заголовок и текст');
+        return;
+    }
+    
+    // Для демо сохраняем в localStorage (только для текущего пользователя)
+    const localPosts = JSON.parse(localStorage.getItem('kvacan_demo_posts') || '[]');
+    localPosts.unshift({
+        date: new Date().toISOString().slice(0, 10),
+        title: title,
+        text: text,
+        videoUrl: videoUrl
+    });
+    localStorage.setItem('kvacan_demo_posts', JSON.stringify(localPosts));
+    
+    alert('✅ Пост сохранен локально. Для публикации для всех нужно настроить запись в Google Sheets.');
+    
+    document.getElementById('postTitle').value = '';
+    document.getElementById('postText').value = '';
+    document.getElementById('postVideoUrl').value = '';
+    
+    // Показываем объединенные посты (из Google Sheets + локальные)
+    loadPosts();
+}
+
+function attemptLogin() {
+    const login = document.getElementById('adminLogin').value;
+    const pass = document.getElementById('adminPassword').value;
+    
+    if (login === ADMIN_LOGIN && CryptoJS.SHA256(pass).toString() === PASSWORD_HASH) {
+        isAdmin = true;
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('adminPanel').classList.add('visible');
+        document.getElementById('logoutBtn').classList.add('visible');
+        alert('Добро пожаловать в админ-панель!');
+    } else {
+        alert('Неверный логин или пароль');
+    }
+}
+
+function logout() {
+    isAdmin = false;
+    document.getElementById('adminPanel').classList.remove('visible');
+    document.getElementById('logoutBtn').classList.remove('visible');
+    alert('Вы вышли из админ-панели');
+}
+
+function showLogin() {
+    document.getElementById('loginOverlay').style.display = 'flex';
+}
+
+// Горячая клавиша Shift + A
+document.addEventListener('keydown', function(e) {
+    if (e.shiftKey && e.key === 'A') {
+        if (!isAdmin) showLogin();
+        else alert('Вы уже в админ-панели');
+    }
+    if (e.key === 'Escape') {
+        closeModal();
+        document.getElementById('loginOverlay').style.display = 'none';
+    }
+});
+
 // Защита от копирования
 document.addEventListener('copy', e => { e.preventDefault(); alert('📛 Копирование контента запрещено'); return false; });
 document.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
 document.addEventListener('dragstart', e => { e.preventDefault(); return false; });
 
-// Вспомогательные функции
 function toggleFaq(e) { e.classList.toggle('active'); e.nextElementSibling.classList.toggle('show'); }
 function toggleChat() { document.getElementById('chatMenu').classList.toggle('show'); }
 document.addEventListener('click', e => { if (!e.target.closest('.chat-widget')) document.getElementById('chatMenu')?.classList.remove('show'); });
