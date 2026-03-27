@@ -353,44 +353,6 @@
             box-shadow: 0 0 8px #d4a5ff;
         }
         
-        /* Кнопки навигации внутри поста */
-        .post-media-nav {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 12px;
-            gap: 15px;
-        }
-        
-        .post-nav-btn {
-            background: rgba(80, 50, 130, 0.8);
-            border: 2px solid #d4a5ff;
-            color: white;
-            font-size: 1.2rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(4px);
-        }
-        
-        .post-nav-btn:hover {
-            background: #d4a5ff;
-            color: #1a0a2a;
-            transform: scale(1.05);
-        }
-        
-        @media (max-width: 480px) {
-            .post-nav-btn {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
-        }
-        
         .loading {
             text-align: center;
             padding: 40px;
@@ -961,10 +923,8 @@
             return url;
         }
         
-        // ==================== КАРУСЕЛЬ ВНУТРИ ПОСТА (с кнопками и индикаторами) ====================
         function createPostCarousel(mediaUrls, postId) {
             if (!mediaUrls || mediaUrls.length === 0) return '';
-            
             const items = mediaUrls.map(url => {
                 const trimmed = url.trim();
                 if (isImageUrl(trimmed)) {
@@ -980,27 +940,16 @@
                     return `<div class="post-media-slide"><a href="${trimmed}" target="_blank" style="color:#d4a5ff; display:flex; align-items:center; justify-content:center; height:100%; padding:40px;">Открыть ссылку</a></div>`;
                 }
             }).join('');
-            
             const indicatorsHtml = mediaUrls.length > 1 ? 
                 `<div class="post-carousel-indicators" id="indicators-${postId}">
                     ${mediaUrls.map((_, idx) => `<div class="post-indicator ${idx === 0 ? 'active' : ''}" data-index="${idx}"></div>`).join('')}
                 </div>` : '';
-            
-            // Кнопки навигации (только если больше одного медиа)
-            const navHtml = mediaUrls.length > 1 ? `
-                <div class="post-media-nav">
-                    <button class="post-nav-btn post-nav-prev" data-post-id="${postId}">‹</button>
-                    <button class="post-nav-btn post-nav-next" data-post-id="${postId}">›</button>
-                </div>
-            ` : '';
-            
             return `
                 <div class="post-media-carousel" data-post-id="${postId}">
                     <div class="post-media-track" id="track-${postId}">
                         ${items}
                     </div>
                     ${indicatorsHtml}
-                    ${navHtml}
                 </div>
             `;
         }
@@ -1012,14 +961,10 @@
                 if (!track) return;
                 const slides = track.querySelectorAll('.post-media-slide');
                 if (slides.length <= 1) return;
-                
                 let currentIdx = 0;
                 let startX = 0;
                 let isDragging = false;
-                
                 const indicators = document.querySelectorAll(`#indicators-${postId} .post-indicator`);
-                const prevBtn = carousel.querySelector('.post-nav-prev');
-                const nextBtn = carousel.querySelector('.post-nav-next');
                 
                 function updateIndicators() {
                     indicators.forEach((ind, i) => {
@@ -1027,7 +972,6 @@
                         else ind.classList.remove('active');
                     });
                 }
-                
                 function goToSlide(index) {
                     if (index < 0) index = 0;
                     if (index >= slides.length) index = slides.length - 1;
@@ -1035,30 +979,20 @@
                     track.style.transform = `translateX(-${currentIdx * 100}%)`;
                     updateIndicators();
                 }
-                
                 function nextSlide() {
                     if (currentIdx < slides.length - 1) goToSlide(currentIdx + 1);
                     else goToSlide(0);
                 }
-                
                 function prevSlide() {
                     if (currentIdx > 0) goToSlide(currentIdx - 1);
                     else goToSlide(slides.length - 1);
                 }
-                
-                // Индикаторы
                 indicators.forEach(ind => {
                     ind.addEventListener('click', (e) => {
                         const idx = parseInt(e.target.dataset.index);
                         goToSlide(idx);
                     });
                 });
-                
-                // Кнопки навигации
-                if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-                if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-                
-                // Свайп
                 track.addEventListener('touchstart', (e) => {
                     startX = e.touches[0].clientX;
                     isDragging = true;
@@ -1074,8 +1008,6 @@
                     }
                 });
                 track.addEventListener('touchend', () => { isDragging = false; });
-                
-                // Мышь
                 track.addEventListener('mousedown', (e) => {
                     startX = e.clientX;
                     isDragging = true;
@@ -1250,4 +1182,3 @@
     </script>
 </body>
 </html>
-  
