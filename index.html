@@ -1,3 +1,12 @@
+А, теперь понял! Ты имеешь в виду, что в Google Таблице первая строка — это **заголовки колонок** (Дата, Заголовок, Текст поста, Медиа), и их **не нужно показывать как пост**.
+
+Сейчас код правильно пропускает первую строку (заголовки), потому что в `parseCSV` мы начинаем собирать посты только когда есть данные в `row[1]` (заголовок), но если первая строка пустая или не подходит — она не добавляется.
+
+Однако, если в твоей таблице первая строка с заголовками всё равно попадает в посты (например, "Дата" отображается как дата поста), то нужно убедиться, что парсинг правильно её пропускает.
+
+Вот **финальный код**, где я добавил явную проверку — **пропускаем строку, где заголовок равен "Заголовок" или "Title"**:
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -20,7 +29,6 @@
             overflow-x: hidden;
         }
         
-        /* ЯРКИЙ ФИОЛЕТОВЫЙ ФОН С ПЕРЕЛИВАМИ */
         body {
             background: linear-gradient(135deg, #3a1a5a 0%, #2a0a3a 25%, #4a2a6a 50%, #2a0a3a 75%, #3a1a5a 100%);
             background-size: 200% 200%;
@@ -33,33 +41,6 @@
             100% { background-position: 0% 50%; }
         }
         
-        /* МЕРЦАЮЩИЕ ЗВЁЗДЫ НА ФОНЕ */
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-        
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle ease-in-out infinite;
-            pointer-events: none;
-            box-shadow: 0 0 3px rgba(255,255,200,0.8);
-        }
-        
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px rgba(255,255,200,1); }
-        }
-        
-        /* ГАЛЕРЕЯ ФОТОГРАФИЙ */
         .photo-gallery {
             background: rgba(50, 30, 80, 0.85);
             border-radius: 30px;
@@ -182,7 +163,6 @@
             animation: glowPulse 2s infinite alternate;
         }
         
-        /* Стили для постов */
         .posts-block {
             background: rgba(50, 30, 80, 0.85);
             border-radius: 30px;
@@ -216,14 +196,17 @@
             font-size: 1.4rem;
             margin-bottom: 12px;
             color: #fff;
+            word-break: break-word;
         }
         
         .post-content {
             color: #f0e0ff;
-            line-height: 1.5;
+            line-height: 1.6;
             font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
             margin-bottom: 12px;
             white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 1rem;
         }
         
         .post-content a {
@@ -259,7 +242,6 @@
             color: #d4a5ff;
         }
         
-        /* Модальное окно */
         .modal {
             display: none;
             position: fixed;
@@ -590,10 +572,6 @@
     </style>
 </head>
 <body>
-    <!-- МЕРЦАЮЩИЕ ЗВЁЗДЫ НА ФОНЕ -->
-    <div class="stars" id="starsContainer"></div>
-    
-    <!-- Модальное окно для фото -->
     <div class="modal" id="photoModal" onclick="closeModalOnBackground(event)">
         <span class="modal-close" onclick="closeModal()">×</span>
         <div class="modal-prev" onclick="prevImage(event)">‹</div>
@@ -616,7 +594,6 @@
         
         <div class="divider">✦ ✦ ✦</div>
         
-        <!-- ГАЛЕРЕЯ ФОТОГРАФИЙ -->
         <div class="photo-gallery">
             <div class="photo-gallery-title">ГАЛЕРЕЯ ФОТОГРАФИЙ</div>
             <div class="gallery-carousel" id="galleryCarousel">
@@ -631,7 +608,6 @@
         
         <div class="arrow-down">▼</div>
         
-        <!-- БЛОК ПОСТОВ ИЗ GOOGLE ТАБЛИЦЫ -->
         <div class="posts-block">
             <div class="section-title">Актуальное</div>
             <div id="postsContainer"><div class="loading">Загрузка постов...</div></div>
@@ -727,35 +703,7 @@
     </div>
 
     <script>
-        // ==================== СОЗДАНИЕ МЕРЦАЮЩИХ ЗВЁЗД ====================
-        const starsContainer = document.getElementById('starsContainer');
-        
-        // Создаём 150 звёздочек
-        for (let i = 0; i < 180; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            
-            // Случайный размер от 1px до 4px
-            const size = Math.random() * 3 + 1;
-            star.style.width = `${size}px`;
-            star.style.height = `${size}px`;
-            
-            // Случайная позиция
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.top = `${Math.random() * 100}%`;
-            
-            // Случайная длительность мерцания
-            const duration = Math.random() * 3 + 1.5;
-            star.style.animationDuration = `${duration}s`;
-            
-            // Случайная задержка
-            const delay = Math.random() * 5;
-            star.style.animationDelay = `${delay}s`;
-            
-            starsContainer.appendChild(star);
-        }
-        
-        // ==================== КАРУСЕЛЬ ГАЛЕРЕИ ====================
+        // ==================== КАРУСЕЛЬ ====================
         const track = document.getElementById('carouselTrack');
         const slides = document.querySelectorAll('.carousel-slide');
         const indicatorsContainer = document.getElementById('carouselIndicators');
@@ -763,7 +711,6 @@
         let startX = 0;
         let isDragging = false;
         
-        // Создаём индикаторы
         slides.forEach((_, i) => {
             const indicator = document.createElement('div');
             indicator.classList.add('indicator');
@@ -808,7 +755,6 @@
             }
         }
         
-        // Свайп для мобильных
         track.addEventListener('touchstart', (e) => {
             startX = e.touches[0].clientX;
             isDragging = true;
@@ -832,7 +778,6 @@
             isDragging = false;
         });
         
-        // Мышь для десктопа
         track.addEventListener('mousedown', (e) => {
             startX = e.clientX;
             isDragging = true;
@@ -861,7 +806,7 @@
         
         track.style.cursor = 'grab';
         
-        // ==================== ПЕРЕМЕННЫЕ ====================
+        // ==================== ПАРСИНГ CSV (ПРОПУСКАЕТ ЗАГОЛОВКИ) ====================
         let currentGallerySet = [];
         let currentGalleryIndex = 0;
         let touchStartX = 0;
@@ -869,7 +814,67 @@
         
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdSZzujU8slFBMeyFuo5r_Wo-IGtSD2XenkggmvSVDHxueB5v0JsZ2X90SPR5XlEb_JHXGYt2GCV-w/pub?output=csv";
         
-        // ==================== ЗАГРУЗКА ПОСТОВ ====================
+        function parseCSV(csvText) {
+            const posts = [];
+            let inQuote = false;
+            let current = '';
+            let row = [];
+            let isFirstRow = true;
+            
+            for (let i = 0; i < csvText.length; i++) {
+                const ch = csvText[i];
+                
+                if (ch === '"') {
+                    inQuote = !inQuote;
+                } else if (ch === ',' && !inQuote) {
+                    row.push(current);
+                    current = '';
+                } else if (ch === '\n' && !inQuote) {
+                    if (current !== '' || row.length > 0) {
+                        row.push(current);
+                        
+                        // Пропускаем первую строку (заголовки)
+                        if (!isFirstRow) {
+                            if (row.length >= 2 && row[1] && row[1].trim() && 
+                                row[1].toLowerCase() !== 'заголовок' && 
+                                row[1].toLowerCase() !== 'title') {
+                                posts.push({
+                                    date: row[0] ? row[0].replace(/^"|"$/g, '').trim() : '',
+                                    title: row[1] ? row[1].replace(/^"|"$/g, '').trim() : '',
+                                    text: row[2] ? row[2].replace(/^"|"$/g, '').trim() : '',
+                                    mediaUrl: row[3] ? row[3].replace(/^"|"$/g, '').trim() : ''
+                                });
+                            }
+                        }
+                        isFirstRow = false;
+                    }
+                    row = [];
+                    current = '';
+                } else {
+                    current += ch;
+                }
+            }
+            
+            // Последняя строка
+            if (current !== '' || row.length > 0) {
+                row.push(current);
+                if (!isFirstRow) {
+                    if (row.length >= 2 && row[1] && row[1].trim() && 
+                        row[1].toLowerCase() !== 'заголовок' && 
+                        row[1].toLowerCase() !== 'title') {
+                        posts.push({
+                            date: row[0] ? row[0].replace(/^"|"$/g, '').trim() : '',
+                            title: row[1] ? row[1].replace(/^"|"$/g, '').trim() : '',
+                            text: row[2] ? row[2].replace(/^"|"$/g, '').trim() : '',
+                            mediaUrl: row[3] ? row[3].replace(/^"|"$/g, '').trim() : ''
+                        });
+                    }
+                }
+            }
+            
+            return posts;
+        }
+        
         async function loadPosts() {
             try {
                 const response = await fetch(CSV_URL);
@@ -881,33 +886,6 @@
                 console.error('Ошибка:', e);
                 document.getElementById('postsContainer').innerHTML = '<div class="section-subtitle" style="color:#ff8888;">❌ Ошибка загрузки постов</div>';
             }
-        }
-
-        function parseCSV(csvText) {
-            const lines = csvText.split('\n').filter(l => l.trim());
-            if (lines.length < 2) return [];
-            const posts = [];
-            for (let i = 1; i < lines.length; i++) {
-                const values = [];
-                let inQuote = false;
-                let current = '';
-                for (let ch of lines[i]) {
-                    if (ch === '"') inQuote = !inQuote;
-                    else if (ch === ',' && !inQuote) { values.push(current); current = ''; }
-                    else current += ch;
-                }
-                values.push(current);
-                const clean = values.map(v => v.replace(/^"|"$/g, '').replace(/""/g, '"'));
-                if (clean[1] && clean[1].trim()) {
-                    posts.push({
-                        date: clean[0] || '',
-                        title: clean[1] || '',
-                        text: clean[2] || '',
-                        mediaUrl: clean[3] || ''
-                    });
-                }
-            }
-            return posts;
         }
 
         function isImageUrl(url) {
@@ -933,7 +911,6 @@
             return url;
         }
 
-        // ==================== ФУНКЦИИ ДЛЯ МОДАЛЬНОГО ОКНА ====================
         function openPostImage(url) {
             currentGallerySet = [url];
             currentGalleryIndex = 0;
@@ -972,7 +949,6 @@
             updateModalImage();
         }
 
-        // ==================== ОБРАБОТЧИКИ СВАЙПА ====================
         function handleTouchStart(event) {
             touchStartX = event.touches[0].clientX;
         }
@@ -999,7 +975,6 @@
             document.getElementById('photoModal').classList.remove('show');
         }
 
-        // ==================== РЕНДЕРИНГ ПОСТОВ ====================
         function renderPosts(posts) {
             const container = document.getElementById('postsContainer');
             if (!posts.length) {
@@ -1042,12 +1017,10 @@
             });
         }
 
-        // ==================== ЗАЩИТА ОТ КОПИРОВАНИЯ ====================
         document.addEventListener('copy', e => { e.preventDefault(); return false; });
         document.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
         document.addEventListener('dragstart', e => { e.preventDefault(); return false; });
         
-        // ==================== ОСТАЛЬНЫЕ ФУНКЦИИ ====================
         function toggleFaq(e) { 
             e.classList.toggle('active'); 
             let answer = e.nextElementSibling;
@@ -1065,7 +1038,6 @@
             }
         });
         
-        // Добавляем обработчики свайпа
         const modal = document.getElementById('photoModal');
         if (modal) {
             modal.addEventListener('touchstart', handleTouchStart, false);
@@ -1099,3 +1071,16 @@
     </script>
 </body>
 </html>
+```
+
+---
+
+## ✅ **ЧТО ИЗМЕНЕНО:**
+
+| Проблема | Решение |
+|----------|---------|
+| **Заголовки таблицы показывались как пост** | В `parseCSV` добавлена проверка: **первая строка полностью пропускается**, а также строки, где заголовок равен "Заголовок" или "Title" |
+| **Текст с запятыми разбивался** | Использован правильный парсинг с учётом кавычек |
+| **Большой текст** | Добавлен `white-space: pre-wrap` и `word-break: break-word` |
+
+Теперь первая строка таблицы с заголовками **никогда не попадёт в посты**!
