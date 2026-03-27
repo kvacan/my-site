@@ -168,7 +168,7 @@
             background: rgba(70, 40, 110, 0.8);
             border-radius: 25px;
             padding: 18px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             border-left: 4px solid #d4a5ff;
             transition: transform 0.2s;
         }
@@ -194,7 +194,7 @@
             color: #f0e0ff;
             line-height: 1.6;
             font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             white-space: pre-wrap;
             word-break: break-word;
             font-size: 1rem;
@@ -204,6 +204,79 @@
             color: #e0b0ff;
             text-decoration: underline;
             word-break: break-all;
+        }
+        
+        /* КАРУСЕЛЬ ВНУТРИ ПОСТА */
+        .post-media-carousel {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+            border: 2px solid #d4a5ff;
+            background: #1a0a2a;
+            margin-top: 12px;
+        }
+        
+        .post-media-track {
+            display: flex;
+            transition: transform 0.3s ease-out;
+            cursor: grab;
+        }
+        
+        .post-media-track:active {
+            cursor: grabbing;
+        }
+        
+        .post-media-slide {
+            flex: 0 0 100%;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #2a1a4a;
+        }
+        
+        .post-media-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+        
+        .post-media-slide iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .post-media-slide video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .post-carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .post-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(212, 165, 255, 0.4);
+            border: 1px solid #d4a5ff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .post-indicator.active {
+            background: #d4a5ff;
+            transform: scale(1.2);
+            box-shadow: 0 0 8px #d4a5ff;
         }
         
         .post-video {
@@ -694,7 +767,7 @@
     </div>
 
     <script>
-        // ==================== КАРУСЕЛЬ ====================
+        // ==================== КАРУСЕЛЬ ГАЛЕРЕИ ====================
         const track = document.getElementById('carouselTrack');
         const slides = document.querySelectorAll('.carousel-slide');
         const indicatorsContainer = document.getElementById('carouselIndicators');
@@ -797,7 +870,7 @@
         
         track.style.cursor = 'grab';
         
-        // ==================== ПАРСИНГ CSV (ПРОПУСКАЕТ ЗАГОЛОВКИ) ====================
+        // ==================== ПАРСИНГ CSV ====================
         let currentGallerySet = [];
         let currentGalleryIndex = 0;
         let touchStartX = 0;
@@ -823,8 +896,6 @@
                 } else if (ch === '\n' && !inQuote) {
                     if (current !== '' || row.length > 0) {
                         row.push(current);
-                        
-                        // Пропускаем первую строку (заголовки)
                         if (!isFirstRow) {
                             if (row.length >= 2 && row[1] && row[1].trim() && 
                                 row[1].toLowerCase() !== 'заголовок' && 
@@ -846,7 +917,6 @@
                 }
             }
             
-            // Последняя строка
             if (current !== '' || row.length > 0) {
                 row.push(current);
                 if (!isFirstRow) {
@@ -900,6 +970,150 @@
                 if (videoId) return `https://player.vimeo.com/video/${videoId}`;
             }
             return url;
+        }
+        
+        // ==================== СОЗДАНИЕ КАРУСЕЛИ ДЛЯ МЕДИА В ПОСТЕ ====================
+        function createPostCarousel(mediaUrls, postId) {
+            if (!mediaUrls || mediaUrls.length === 0) return '';
+            
+            const items = mediaUrls.map(url => {
+                const trimmedUrl = url.trim();
+                if (isImageUrl(trimmedUrl)) {
+                    return `<div class="post-media-slide"><img src="${trimmedUrl}" loading="lazy"></div>`;
+                } else if (isVideoUrl(trimmedUrl)) {
+                    const embedUrl = getVideoEmbedUrl(trimmedUrl);
+                    if (trimmedUrl.includes('youtube.com') || trimmedUrl.includes('youtu.be') || trimmedUrl.includes('vimeo.com')) {
+                        return `<div class="post-media-slide"><iframe src="${embedUrl}" frameborder="0" allowfullscreen allow="autoplay; fullscreen; accelerometer; gyroscope; picture-in-picture"></iframe></div>`;
+                    } else {
+                        return `<div class="post-media-slide"><video controls><source src="${trimmedUrl}"></video></div>`;
+                    }
+                } else {
+                    return `<div class="post-media-slide"><a href="${trimmedUrl}" target="_blank" style="color:#d4a5ff; display:flex; align-items:center; justify-content:center; height:100%;">🔗 Открыть ссылку</a></div>`;
+                }
+            }).join('');
+            
+            const indicatorsHtml = mediaUrls.length > 1 ? 
+                `<div class="post-carousel-indicators" id="indicators-${postId}">
+                    ${mediaUrls.map((_, idx) => `<div class="post-indicator ${idx === 0 ? 'active' : ''}" data-index="${idx}"></div>`).join('')}
+                </div>` : '';
+            
+            return `
+                <div class="post-media-carousel" data-post-id="${postId}">
+                    <div class="post-media-track" id="track-${postId}">
+                        ${items}
+                    </div>
+                    ${indicatorsHtml}
+                </div>
+            `;
+        }
+        
+        function initPostCarousels() {
+            document.querySelectorAll('.post-media-carousel').forEach(carousel => {
+                const postId = carousel.dataset.postId;
+                const track = document.getElementById(`track-${postId}`);
+                if (!track) return;
+                
+                const slides = track.querySelectorAll('.post-media-slide');
+                if (slides.length <= 1) return;
+                
+                let currentIdx = 0;
+                let startX = 0;
+                let isDragging = false;
+                
+                const indicators = document.querySelectorAll(`#indicators-${postId} .post-indicator`);
+                
+                function updateIndicators() {
+                    indicators.forEach((ind, i) => {
+                        if (i === currentIdx) {
+                            ind.classList.add('active');
+                        } else {
+                            ind.classList.remove('active');
+                        }
+                    });
+                }
+                
+                function goToSlide(index) {
+                    if (index < 0) index = 0;
+                    if (index >= slides.length) index = slides.length - 1;
+                    currentIdx = index;
+                    track.style.transform = `translateX(-${currentIdx * 100}%)`;
+                    updateIndicators();
+                }
+                
+                function nextSlide() {
+                    if (currentIdx < slides.length - 1) {
+                        goToSlide(currentIdx + 1);
+                    } else {
+                        goToSlide(0);
+                    }
+                }
+                
+                function prevSlide() {
+                    if (currentIdx > 0) {
+                        goToSlide(currentIdx - 1);
+                    } else {
+                        goToSlide(slides.length - 1);
+                    }
+                }
+                
+                indicators.forEach(ind => {
+                    ind.addEventListener('click', (e) => {
+                        const idx = parseInt(e.target.dataset.index);
+                        goToSlide(idx);
+                    });
+                });
+                
+                track.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    isDragging = true;
+                });
+                
+                track.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    const moveX = e.touches[0].clientX;
+                    const diff = moveX - startX;
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) {
+                            prevSlide();
+                        } else {
+                            nextSlide();
+                        }
+                        isDragging = false;
+                    }
+                });
+                
+                track.addEventListener('touchend', () => {
+                    isDragging = false;
+                });
+                
+                track.addEventListener('mousedown', (e) => {
+                    startX = e.clientX;
+                    isDragging = true;
+                    track.style.cursor = 'grabbing';
+                });
+                
+                window.addEventListener('mousemove', (e) => {
+                    if (!isDragging) return;
+                    const moveX = e.clientX;
+                    const diff = moveX - startX;
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) {
+                            prevSlide();
+                        } else {
+                            nextSlide();
+                        }
+                        isDragging = false;
+                        track.style.cursor = 'grab';
+                    }
+                });
+                
+                window.addEventListener('mouseup', () => {
+                    isDragging = false;
+                    track.style.cursor = 'grab';
+                });
+                
+                track.style.cursor = 'grab';
+            });
         }
 
         function openPostImage(url) {
@@ -973,17 +1187,13 @@
                 return;
             }
             
-            container.innerHTML = posts.map(post => {
+            container.innerHTML = posts.map((post, idx) => {
                 let mediaHtml = '';
                 if (post.mediaUrl && post.mediaUrl.trim()) {
-                    let url = post.mediaUrl.trim();
-                    if (isImageUrl(url)) {
-                        mediaHtml = `<img class="post-image" src="${url}" onclick="openPostImage('${url}')" loading="lazy">`;
-                    } else if (isVideoUrl(url)) {
-                        let embedUrl = getVideoEmbedUrl(url);
-                        mediaHtml = `<iframe class="post-video" src="${embedUrl}" frameborder="0" allowfullscreen allow="autoplay; fullscreen; accelerometer; gyroscope; picture-in-picture"></iframe>`;
-                    } else {
-                        mediaHtml = `<a href="${url}" target="_blank" style="color:#d4a5ff; display:inline-block; margin-top:10px;">🔗 Открыть ссылку</a>`;
+                    // Разделяем по | для нескольких медиа
+                    const mediaUrls = post.mediaUrl.split('|').map(u => u.trim()).filter(u => u);
+                    if (mediaUrls.length > 0) {
+                        mediaHtml = createPostCarousel(mediaUrls, `post-${idx}`);
                     }
                 }
                 const textWithLinks = post.text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
@@ -996,6 +1206,8 @@
                     </div>
                 `;
             }).join('');
+            
+            setTimeout(initPostCarousels, 50);
         }
 
         function escapeHtml(str) {
