@@ -19,21 +19,15 @@
 
         :root {
             --aurora-green: #a0ffcc;
-            --aurora-soft: rgba(100, 200, 150, 0.7);
-            --bg-deep: #0a0520;
             --glass-bg: rgba(20, 20, 50, 0.45);
             --glass-border: rgba(100, 200, 150, 0.35);
-            --text-primary: #c8ffd8;
-            --text-secondary: #c8b8e8;
-            --accent-purple: #6a5ac0;
             --transition-smooth: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 80px;
+            -webkit-overflow-scrolling: touch;
         }
 
         body {
@@ -46,7 +40,7 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* СЕВЕРНОЕ СИЯНИЕ - ГЛАВНЫЙ ФОН */
+        /* Северное сияние – форсируем композитинг для плавности */
         .aurora-bg {
             position: fixed;
             top: 0;
@@ -55,37 +49,23 @@
             height: 100%;
             z-index: 0;
             background: linear-gradient(125deg,
-                    #0a0a2a 0%,
-                    #0a2a2a 15%,
-                    #1a0a3a 30%,
-                    #0a3a4a 45%,
-                    #2a1a5a 60%,
-                    #0a2a5a 75%,
-                    #0a0a2a 100%);
+                    #0a0a2a 0%, #0a2a2a 15%, #1a0a3a 30%,
+                    #0a3a4a 45%, #2a1a5a 60%, #0a2a5a 75%, #0a0a2a 100%);
             background-size: 400% 400%;
             animation: auroraFlow 15s ease infinite;
+            transform: translateZ(0);
+            backface-visibility: hidden;
             will-change: background-position;
         }
 
         @keyframes auroraFlow {
-            0% {
-                background-position: 0% 50%;
-            }
-            25% {
-                background-position: 50% 100%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            75% {
-                background-position: 50% 0%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 100%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 0%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* СВЕТЯЩИЕСЯ ВОЛНЫ СЕВЕРНОГО СИЯНИЯ */
         .aurora-waves {
             position: fixed;
             top: 0;
@@ -94,319 +74,48 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
-            background:
-                radial-gradient(ellipse at 20% 40%, rgba(100, 200, 150, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 60%, rgba(80, 150, 200, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(150, 100, 200, 0.08) 0%, transparent 60%);
+            background: radial-gradient(ellipse at 20% 40%, rgba(100,200,150,0.1) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 60%, rgba(80,150,200,0.1) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 80%, rgba(150,100,200,0.08) 0%, transparent 60%);
             animation: auroraPulse 8s ease-in-out infinite;
-            will-change: opacity;
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
 
         @keyframes auroraPulse {
-            0%,
-            100% {
-                opacity: 0.5;
-            }
-            50% {
-                opacity: 1;
-            }
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
-        /* ЗАТЕМНЕНИЕ */
         .dark-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0,0,0,0.35);
             z-index: 2;
             pointer-events: none;
         }
 
-        /* ==================== НАВИГАЦИЯ ==================== */
-        .main-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(15, 10, 35, 0.75);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid rgba(100, 200, 150, 0.3);
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 60px;
-            transition: all var(--transition-smooth);
-            will-change: transform;
-        }
-
-        .main-nav.scrolled {
-            background: rgba(15, 10, 35, 0.92);
-            border-bottom-color: rgba(100, 200, 150, 0.55);
-            box-shadow: 0 4px 30px rgba(100, 200, 150, 0.12);
-        }
-
-        .nav-brand {
-            font-size: 1.5rem;
-            color: #c8ffd8;
-            letter-spacing: 2px;
-            text-shadow: 0 0 18px rgba(100, 200, 150, 0.5);
-            cursor: pointer;
-            transition: all var(--transition-smooth);
-            flex-shrink: 0;
-            text-decoration: none;
-        }
-
-        .nav-brand:hover {
-            text-shadow: 0 0 30px rgba(100, 200, 200, 0.85);
-            letter-spacing: 3px;
-            color: #fff;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
-
-        .nav-link {
-            background: transparent;
-            border: 1px solid transparent;
-            color: #c8d8e8;
-            text-decoration: none;
-            padding: 8px 14px;
-            border-radius: 25px;
-            font-size: 0.82rem;
-            letter-spacing: 0.6px;
-            cursor: pointer;
-            transition: all var(--transition-smooth);
-            white-space: nowrap;
-            position: relative;
-            font-family: 'Russo One', sans-serif;
-            text-transform: uppercase;
-        }
-
-        .nav-link:hover {
-            color: #fff;
-            background: rgba(100, 200, 150, 0.12);
-            border-color: rgba(100, 200, 150, 0.4);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(100, 200, 150, 0.15);
-            letter-spacing: 1px;
-        }
-
-        .nav-link.active-link {
-            color: #a0ffcc;
-            border-color: rgba(100, 200, 150, 0.55);
-            background: rgba(100, 200, 150, 0.1);
-            text-shadow: 0 0 10px rgba(100, 200, 150, 0.4);
-        }
-
-        .nav-link.highlight-nav {
-            background: linear-gradient(135deg, rgba(90, 74, 176, 0.7), rgba(58, 42, 138, 0.7));
-            border-color: rgba(100, 200, 150, 0.55);
-            color: #c8ffd8;
-            font-weight: 400;
-            animation: navPulse 2.5s ease-in-out infinite;
-        }
-
-        @keyframes navPulse {
-            0%,
-            100% {
-                box-shadow: 0 0 8px rgba(100, 200, 150, 0.25);
-            }
-            50% {
-                box-shadow: 0 0 22px rgba(100, 200, 150, 0.5);
-            }
-        }
-
-        .nav-toggle {
-            display: none;
-            background: rgba(80, 60, 140, 0.6);
-            border: 2px solid rgba(100, 200, 150, 0.5);
-            color: #c8ffd8;
-            font-size: 1.5rem;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition-smooth);
-            flex-shrink: 0;
-        }
-
-        .nav-toggle:hover {
-            background: #6a5ac0;
-            border-color: #a0ffcc;
-            transform: rotate(90deg);
-            box-shadow: 0 0 20px rgba(100, 200, 150, 0.4);
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 60px;
-                left: 10px;
-                right: 10px;
-                background: rgba(15, 10, 35, 0.96);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                border-radius: 20px;
-                border: 1px solid rgba(100, 200, 150, 0.4);
-                flex-direction: column;
-                padding: 12px;
-                gap: 4px;
-                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-                animation: dropdownIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-
-            .nav-links.show {
-                display: flex;
-            }
-
-            @keyframes dropdownIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(-20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            .nav-link {
-                width: 100%;
-                text-align: center;
-                padding: 12px 16px;
-                font-size: 0.9rem;
-                border-radius: 30px;
-            }
-
-            .nav-toggle {
-                display: flex;
-            }
-
-            .main-nav {
-                height: 54px;
-                padding: 0 14px;
-            }
-
-            .nav-brand {
-                font-size: 1.25rem;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .nav-links {
-                display: flex !important;
-            }
-        }
-
-        /* ==================== ОВЕРЛЕЙ ПОСТОВ ==================== */
-        .posts-overlay {
+        /* Звёзды – отдельный композитный слой */
+        .stars-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 9999;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            opacity: 0;
             pointer-events: none;
-            transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .posts-overlay.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .posts-overlay-panel {
-            width: 100%;
-            max-width: 620px;
-            min-height: 100vh;
-            background: rgba(18, 14, 42, 0.97);
-            border-left: 1px solid rgba(100, 200, 150, 0.3);
-            border-right: 1px solid rgba(100, 200, 150, 0.3);
-            padding: 20px 18px 60px;
-            position: relative;
-            transform: translateY(30px);
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 80px rgba(100, 200, 150, 0.1);
-        }
-
-        .posts-overlay.show .posts-overlay-panel {
-            transform: translateY(0);
-        }
-
-        .posts-overlay-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(100, 200, 150, 0.25);
-            position: sticky;
-            top: 0;
-            background: rgba(18, 14, 42, 0.97);
             z-index: 5;
-            padding-top: 5px;
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
 
-        .posts-overlay-header h2 {
-            font-size: 1.6rem;
-            color: #c8ffd8;
-            text-shadow: 0 0 12px rgba(100, 200, 150, 0.5);
-            letter-spacing: 1px;
-            margin: 0;
-        }
-
-        .posts-overlay-close {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(80, 60, 140, 0.7);
-            border: 2px solid rgba(100, 200, 150, 0.5);
-            color: #c8ffd8;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition-smooth);
-            flex-shrink: 0;
-            line-height: 1;
-        }
-
-        .posts-overlay-close:hover {
-            background: #6a5ac0;
-            border-color: #a0ffcc;
-            transform: rotate(180deg) scale(1.1);
-            box-shadow: 0 0 25px rgba(100, 200, 150, 0.5);
-            color: #fff;
-        }
-
-        /* ==================== КОНТЕЙНЕР ==================== */
+        /* Контейнер */
         .container {
             max-width: 550px;
             margin: 0 auto;
-            padding: 80px 16px 80px 16px;
+            padding: 60px 16px 80px 16px;
             position: relative;
             z-index: 15;
         }
@@ -414,31 +123,31 @@
         @media (min-width: 768px) {
             .container {
                 max-width: 600px;
-                padding: 90px 20px 80px 20px;
+                padding: 70px 20px 80px 20px;
             }
         }
 
-        /* АВАТАР */
+        /* Аватар и заголовок */
         .avatar {
             width: 140px;
             height: 140px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid rgba(100, 200, 150, 0.8);
+            border: 3px solid rgba(100,200,150,0.8);
             display: block;
             margin: 0 auto 15px;
-            box-shadow: 0 10px 35px rgba(100, 200, 150, 0.35);
+            box-shadow: 0 10px 35px rgba(100,200,150,0.35);
             transition: all var(--transition-smooth);
             pointer-events: none;
+            transform: translateZ(0);
             will-change: transform;
         }
 
         .avatar:hover {
-            box-shadow: 0 14px 45px rgba(100, 200, 200, 0.55);
+            box-shadow: 0 14px 45px rgba(100,200,200,0.55);
             transform: scale(1.03);
         }
 
-        /* ЗАГОЛОВОК */
         h1 {
             font-size: 3.2rem;
             text-align: center;
@@ -446,49 +155,36 @@
             margin-bottom: 25px;
             color: #c8ffd8;
             text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(100, 200, 150, 0.6);
+            text-shadow: 0 0 20px rgba(100,200,150,0.6);
             font-weight: 400;
             transition: all var(--transition-smooth);
         }
 
         h1:hover {
-            text-shadow: 0 0 40px rgba(100, 200, 200, 0.9);
+            text-shadow: 0 0 40px rgba(100,200,200,0.9);
             letter-spacing: 5px;
         }
 
         @media (max-width: 480px) {
-            h1 {
-                font-size: 2.3rem;
-                letter-spacing: 1px;
-                margin-bottom: 18px;
-            }
-            .avatar {
-                width: 110px;
-                height: 110px;
-            }
+            h1 { font-size: 2.3rem; letter-spacing: 1px; margin-bottom: 18px; }
+            .avatar { width: 110px; height: 110px; }
         }
 
-        /* РАЗДЕЛИТЕЛЬ */
         .divider {
             text-align: center;
             margin: 20px 0 15px;
-            color: rgba(160, 255, 204, 0.8);
+            color: rgba(160,255,204,0.8);
             font-size: 1.2rem;
             letter-spacing: 8px;
             animation: dividerGlow 3s ease-in-out infinite;
         }
 
         @keyframes dividerGlow {
-            0%,
-            100% {
-                text-shadow: 0 0 6px rgba(100, 200, 150, 0.3);
-            }
-            50% {
-                text-shadow: 0 0 18px rgba(100, 200, 150, 0.7);
-            }
+            0%, 100% { text-shadow: 0 0 6px rgba(100,200,150,0.3); }
+            50% { text-shadow: 0 0 18px rgba(100,200,150,0.7); }
         }
 
-        /* ГАЛЕРЕЯ */
+        /* Галерея */
         .gallery-section {
             background: var(--glass-bg);
             backdrop-filter: blur(14px);
@@ -498,13 +194,14 @@
             margin: 25px 0;
             border: 1px solid var(--glass-border);
             transition: all var(--transition-smooth);
-            will-change: transform;
+            animation: sectionIn 0.7s ease both;
+            transform: translateZ(0);
         }
 
         .gallery-section:hover {
-            border-color: rgba(100, 200, 200, 0.7);
+            border-color: rgba(100,200,200,0.7);
             transform: translateY(-5px);
-            box-shadow: 0 16px 40px rgba(100, 200, 150, 0.12);
+            box-shadow: 0 16px 40px rgba(100,200,150,0.12);
         }
 
         .gallery-title {
@@ -512,16 +209,15 @@
             text-align: center;
             margin-bottom: 15px;
             color: #c8ffd8;
-            text-shadow: 0 0 8px rgba(100, 200, 150, 0.6);
+            text-shadow: 0 0 8px rgba(100,200,150,0.6);
         }
 
-        /* КАРУСЕЛЬ */
         .carousel-wrapper {
             position: relative;
             width: 100%;
             overflow: hidden;
             border-radius: 20px;
-            border: 2px solid rgba(100, 200, 150, 0.6);
+            border: 2px solid rgba(100,200,150,0.6);
             background: #0a0520;
         }
 
@@ -530,11 +226,10 @@
             transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: grab;
             will-change: transform;
+            transform: translateZ(0);
         }
 
-        .carousel-track:active {
-            cursor: grabbing;
-        }
+        .carousel-track:active { cursor: grabbing; }
 
         .carousel-slide {
             flex: 0 0 100%;
@@ -553,7 +248,6 @@
             pointer-events: none;
         }
 
-        /* НАВИГАЦИЯ ГАЛЕРЕИ */
         .gallery-nav {
             display: flex;
             justify-content: center;
@@ -562,8 +256,8 @@
         }
 
         .nav-btn {
-            background: rgba(80, 60, 140, 0.8);
-            border: 2px solid rgba(100, 200, 150, 0.6);
+            background: rgba(80,60,140,0.8);
+            border: 2px solid rgba(100,200,150,0.6);
             color: #c8ffd8;
             font-size: 1.4rem;
             width: 48px;
@@ -582,15 +276,9 @@
             color: #fff;
             transform: scale(1.12) rotate(360deg);
             border-color: #a0ffcc;
-            box-shadow: 0 0 22px rgba(100, 200, 150, 0.45);
+            box-shadow: 0 0 22px rgba(100,200,150,0.45);
         }
 
-        .nav-btn:active {
-            transform: scale(0.9);
-            transition: transform 0.1s ease;
-        }
-
-        /* ИНДИКАТОРЫ */
         .indicators {
             display: flex;
             justify-content: center;
@@ -602,10 +290,10 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: rgba(100, 200, 150, 0.3);
-            border: 1px solid rgba(100, 200, 150, 0.6);
+            background: rgba(100,200,150,0.3);
+            border: 1px solid rgba(100,200,150,0.6);
             cursor: pointer;
-            transition: all var(--transition-fast);
+            transition: all 0.3s ease;
         }
 
         .indicator.active {
@@ -614,180 +302,7 @@
             box-shadow: 0 0 10px #a0ffcc;
         }
 
-        /* ПОСТЫ (внутри оверлея) */
-        .post-card {
-            background: rgba(60, 45, 110, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 25px;
-            padding: 18px;
-            margin-bottom: 20px;
-            border-left: 4px solid #a0ffcc;
-            transition: all var(--transition-smooth);
-            will-change: transform;
-        }
-
-        .post-card:hover {
-            transform: translateX(8px) translateY(-4px);
-            background: rgba(80, 60, 140, 0.65);
-            border-left-width: 6px;
-            box-shadow: 0 10px 30px rgba(100, 200, 150, 0.1);
-        }
-
-        .post-date {
-            font-size: 0.75rem;
-            color: #a0ffcc;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-
-        .post-title {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            color: #e8d5ff;
-        }
-
-        .post-content {
-            color: #c8b8e8;
-            line-height: 1.7;
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-        }
-
-        .post-content a {
-            color: #a0ffcc;
-            text-decoration: underline;
-            transition: color var(--transition-fast);
-        }
-
-        .post-content a:hover {
-            color: #fff;
-        }
-
-        /* КАРУСЕЛЬ ВНУТРИ ПОСТА */
-        .post-carousel {
-            width: 100%;
-            overflow: hidden;
-            border-radius: 18px;
-            border: 2px solid rgba(100, 200, 150, 0.5);
-            background: #0a0520;
-            margin-top: 12px;
-        }
-
-        .post-track {
-            display: flex;
-            transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            cursor: grab;
-            will-change: transform;
-        }
-
-        .post-track:active {
-            cursor: grabbing;
-        }
-
-        .post-slide {
-            flex: 0 0 100%;
-            display: flex;
-            justify-content: center;
-            background: #0a0520;
-        }
-
-        .post-slide img {
-            width: 100%;
-            height: auto;
-            display: block;
-            cursor: pointer;
-        }
-
-        .post-slide iframe {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            border: none;
-            border-radius: 8px;
-        }
-
-        /* КНОПКА "ПЕРЕЙТИ" В ПОСТЕ */
-        .post-link-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: linear-gradient(135deg, #5a4ab0, #3a2a8a);
-            color: #c8ffd8;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-            border: 2px solid rgba(100, 200, 150, 0.5);
-            transition: all var(--transition-smooth);
-            cursor: pointer;
-            text-transform: uppercase;
-            font-family: 'Russo One', sans-serif;
-            margin: 15px auto;
-            white-space: nowrap;
-        }
-
-        .post-link-btn:hover {
-            background: linear-gradient(135deg, #7a6ad0, #5a4aaa);
-            border-color: #a0ffcc;
-            color: #fff;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 28px rgba(100, 200, 150, 0.35);
-            letter-spacing: 1px;
-            gap: 10px;
-        }
-
-        .post-link-btn::after {
-            content: '→';
-            transition: transform var(--transition-fast);
-            display: inline-block;
-        }
-
-        .post-link-btn:hover::after {
-            transform: translateX(4px);
-        }
-
-        .post-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 0 5px;
-        }
-
-        .post-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: rgba(100, 200, 150, 0.3);
-            border: 1px solid rgba(100, 200, 150, 0.6);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .post-dot.active {
-            background: #a0ffcc;
-            transform: scale(1.4);
-            box-shadow: 0 0 7px #a0ffcc;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #a0ffcc;
-            animation: loadingPulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes loadingPulse {
-            0%,
-            100% {
-                opacity: 0.5;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-
-        /* БЛОКИ */
+        /* Общий блок секции */
         .section-block {
             background: var(--glass-bg);
             backdrop-filter: blur(14px);
@@ -797,13 +312,14 @@
             margin: 25px 0;
             border: 1px solid var(--glass-border);
             transition: all var(--transition-smooth);
-            will-change: transform;
+            animation: sectionIn 0.7s ease both;
+            transform: translateZ(0);
         }
 
         .section-block:hover {
-            border-color: rgba(100, 200, 200, 0.7);
+            border-color: rgba(100,200,200,0.7);
             transform: translateY(-4px);
-            box-shadow: 0 14px 36px rgba(100, 200, 150, 0.1);
+            box-shadow: 0 14px 36px rgba(100,200,150,0.1);
         }
 
         .section-title {
@@ -811,7 +327,7 @@
             text-align: center;
             margin-bottom: 20px;
             color: #c8ffd8;
-            text-shadow: 0 0 10px rgba(100, 200, 150, 0.5);
+            text-shadow: 0 0 10px rgba(100,200,150,0.5);
         }
 
         .section-subtitle {
@@ -822,22 +338,26 @@
             line-height: 1.5;
         }
 
-        /* FAQ АККОРДЕОН */
+        @keyframes sectionIn {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* FAQ */
         .faq-item {
             margin-bottom: 12px;
-            border: 1px solid rgba(100, 200, 150, 0.25);
+            border: 1px solid rgba(100,200,150,0.25);
             border-radius: 20px;
             overflow: hidden;
-            transition: all var(--transition-fast);
-            will-change: transform;
+            transition: all 0.3s ease;
         }
 
         .faq-item:hover {
-            border-color: rgba(100, 200, 150, 0.6);
+            border-color: rgba(100,200,150,0.6);
         }
 
         .faq-question {
-            background: rgba(80, 60, 140, 0.5);
+            background: rgba(80,60,140,0.5);
             padding: 15px 20px;
             font-size: 1rem;
             color: #e8d5ff;
@@ -846,11 +366,10 @@
             justify-content: space-between;
             align-items: center;
             transition: all var(--transition-smooth);
-            user-select: none;
         }
 
         .faq-question:hover {
-            background: rgba(100, 75, 170, 0.7);
+            background: rgba(100,75,170,0.7);
             padding-left: 26px;
         }
 
@@ -859,8 +378,8 @@
             font-size: 0.75rem;
             color: #a0ffcc;
             transition: transform var(--transition-smooth);
-            flex-shrink: 0;
             margin-left: 10px;
+            flex-shrink: 0;
         }
 
         .faq-question.active::after {
@@ -868,7 +387,7 @@
         }
 
         .faq-answer {
-            background: rgba(50, 35, 100, 0.7);
+            background: rgba(50,35,100,0.7);
             padding: 0 20px;
             max-height: 0;
             overflow: hidden;
@@ -883,30 +402,58 @@
             max-height: 900px;
         }
 
-        /* ЯНДЕКС ФОРМА */
-        .yandex-form-wrapper {
-            width: 100%;
-            border-radius: 16px;
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(100, 200, 150, 0.3);
-            min-height: 400px;
-            transition: all var(--transition-smooth);
+        /* Форма обратной связи */
+        .form-container {
+            padding: 20px 0;
         }
 
-        .yandex-form-wrapper:hover {
-            border-color: rgba(100, 200, 200, 0.6);
-            box-shadow: 0 8px 30px rgba(100, 200, 150, 0.08);
-        }
-
-        .yandex-form-wrapper iframe {
-            width: 100%;
-            border: none;
+        .form-container label {
             display: block;
-            min-height: 500px;
+            margin: 18px 0 8px;
+            font-size: 0.9rem;
+            color: #c8ffd8;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 5px rgba(100,200,150,0.3);
         }
 
-        /* КНОПКИ */
+        .form-container input,
+        .form-container textarea,
+        .form-container select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(15,10,35,0.7);
+            border: 1px solid rgba(100,200,150,0.4);
+            border-radius: 20px;
+            font-size: 1rem;
+            color: #c8ffd8;
+            font-family: 'Russo One', sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-container textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-container input:focus,
+        .form-container textarea:focus,
+        .form-container select:focus {
+            border-color: #a0ffcc;
+            box-shadow: 0 0 15px rgba(100,200,150,0.4);
+        }
+
+        .form-container select option {
+            background: #0a0520;
+            color: #c8ffd8;
+        }
+
+        .recaptcha-wrapper {
+            margin: 25px 0 10px;
+            display: flex;
+            justify-content: center;
+        }
+
         .btn {
             display: block;
             background: linear-gradient(135deg, #5a4ab0, #3a2a8a);
@@ -919,7 +466,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             width: 100%;
-            border: 2px solid rgba(100, 200, 150, 0.5);
+            border: 2px solid rgba(100,200,150,0.5);
             transition: all var(--transition-smooth);
             position: relative;
             overflow: hidden;
@@ -935,7 +482,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(160, 255, 204, 0.25), transparent);
+            background: linear-gradient(90deg, transparent, rgba(160,255,204,0.25), transparent);
             transition: left 0.7s ease;
         }
 
@@ -949,7 +496,7 @@
             letter-spacing: 1.8px;
             border-color: #a0ffcc;
             color: #fff;
-            box-shadow: 0 12px 30px rgba(100, 200, 150, 0.35);
+            box-shadow: 0 12px 30px rgba(100,200,150,0.35);
         }
 
         .btn:active {
@@ -960,7 +507,6 @@
         .btn-small {
             font-size: 0.95rem;
             padding: 12px 16px;
-            letter-spacing: 0.8px;
         }
 
         .btn-group {
@@ -970,111 +516,47 @@
             margin: 15px 0;
         }
 
-        /* ЧАТ */
-        .chat-widget {
-            position: fixed;
-            bottom: 30px;
-            right: 15px;
-            z-index: 100;
-        }
-
-        .chat-btn {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #5a4ab0, #3a2a8a);
-            border: 2px solid rgba(100, 200, 150, 0.6);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition-smooth);
-            box-shadow: 0 5px 22px rgba(100, 200, 150, 0.3);
-            will-change: transform;
-        }
-
-        .chat-btn:hover {
-            transform: scale(1.12) rotate(12deg);
-            border-color: #a0ffcc;
-            box-shadow: 0 0 30px rgba(160, 255, 204, 0.55);
-        }
-
-        .chat-btn span {
-            font-size: 1.8rem;
-            color: #c8ffd8;
-        }
-
-        .chat-menu {
-            position: absolute;
-            bottom: 75px;
-            right: 0;
-            width: 260px;
-            background: rgba(20, 20, 50, 0.98);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-radius: 22px;
-            border: 1px solid rgba(100, 200, 150, 0.5);
-            padding: 12px;
-            display: none;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
-        }
-
-        .chat-menu.show {
-            display: block;
-            animation: fadeSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes fadeSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .chat-link {
-            display: block;
-            background: linear-gradient(135deg, #4a3a9a, #2a1a6a);
-            color: #c8ffd8;
-            text-decoration: none;
-            padding: 12px;
-            border-radius: 35px;
+        .result-message {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 20px;
             text-align: center;
             font-size: 0.9rem;
-            border: 1px solid rgba(100, 200, 150, 0.4);
-            transition: all var(--transition-fast);
+            animation: fadeIn 0.5s ease;
         }
 
-        .chat-link:hover {
-            background: #6a5ac0;
-            transform: translateX(-6px);
-            border-color: #a0ffcc;
-            color: #fff;
-            box-shadow: 0 6px 18px rgba(100, 200, 150, 0.25);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ФУТЕР */
+        .success {
+            background: rgba(100,200,150,0.2);
+            border: 1px solid #a0ffcc;
+            color: #a0ffcc;
+        }
+
+        .error {
+            background: rgba(200,100,100,0.2);
+            border: 1px solid #ff8888;
+            color: #ffaaaa;
+        }
+
+        /* Футер */
         footer {
             margin-top: 40px;
             padding-top: 20px;
-            border-top: 1px solid rgba(100, 200, 150, 0.25);
+            border-top: 1px solid rgba(100,200,150,0.25);
             text-align: center;
             color: #90b8c0;
             font-size: 0.75rem;
-        }
-
-        .footer-email {
-            margin-top: 8px;
         }
 
         .footer-email a {
             color: #a0ffcc;
             text-decoration: none;
             border-bottom: 1px dotted #90b8c0;
-            transition: color var(--transition-fast);
+            transition: color 0.3s;
         }
 
         .footer-email a:hover {
@@ -1082,975 +564,350 @@
             border-bottom-color: #fff;
         }
 
-        /* МОДАЛЬНОЕ ОКНО */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.97);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .modal.show {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .modal-img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            border-radius: 12px;
-            box-shadow: 0 0 60px rgba(100, 200, 150, 0.45);
-            animation: zoomIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes zoomIn {
-            from {
-                transform: scale(0.88);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 42px;
-            color: #fff;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            z-index: 5;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-close:hover {
-            transform: scale(1.15);
-            color: #a0ffcc;
-            background: rgba(106, 90, 192, 0.5);
-        }
-
-        .modal-prev,
-        .modal-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 40px;
-            color: #fff;
-            cursor: pointer;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 50%;
-            width: 52px;
-            height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition-smooth);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            z-index: 5;
-        }
-
-        .modal-prev {
-            left: 20px;
-        }
-        .modal-next {
-            right: 20px;
-        }
-
-        .modal-prev:hover,
-        .modal-next:hover {
-            background: #6a5ac0;
-            color: #fff;
-            transform: translateY(-50%) scale(1.12);
-            border-color: #a0ffcc;
-            box-shadow: 0 0 25px rgba(100, 200, 150, 0.5);
-        }
-
-        @media (max-width: 768px) {
-            .modal-prev,
-            .modal-next {
-                width: 40px;
-                height: 40px;
-                font-size: 28px;
-                padding: 8px;
-            }
-            .modal-close {
-                top: 10px;
-                right: 16px;
-                font-size: 32px;
-                width: 38px;
-                height: 38px;
-            }
-            .chat-menu {
-                width: 230px;
-            }
-        }
-
-        /* СКРОЛЛБАР */
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #0a0520;
-        }
-
+        /* Скроллбар */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #0a0520; }
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, #a0ffcc, #6a5ac0);
             border-radius: 10px;
         }
 
-        /* ДОП. ПЛАВНОСТЬ ДЛЯ ВСЕХ ЭЛЕМЕНТОВ */
-        a,
-        button,
-        .btn,
-        .nav-link,
-        .faq-question,
-        .indicator,
-        .post-dot,
-        .chat-btn {
+        /* Дополнительная плавность для всех интерактивных элементов */
+        a, button, .btn, .faq-question, .indicator {
             -webkit-tap-highlight-color: transparent;
             outline: none;
         }
 
-        button:focus-visible,
-        a:focus-visible {
+        button:focus-visible, a:focus-visible {
             outline: 2px solid rgba(160, 255, 204, 0.7);
             outline-offset: 3px;
             border-radius: 4px;
         }
-
-        /* АНИМАЦИЯ ПОЯВЛЕНИЯ СЕКЦИЙ */
-        @keyframes sectionIn {
-            from {
-                opacity: 0;
-                transform: translateY(18px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .section-block,
-        .gallery-section {
-            animation: sectionIn 0.7s cubic-bezier(0.4, 0, 0.2, 1) both;
-        }
-
-        .gallery-section {
-            animation-delay: 0.05s;
-        }
-        #faq {
-            animation-delay: 0.1s;
-        }
-        #yandexFormSection {
-            animation-delay: 0.15s;
-        }
-        #social {
-            animation-delay: 0.2s;
-        }
-        #contacts {
-            animation-delay: 0.25s;
-        }
-        #donation {
-            animation-delay: 0.3s;
-        }
     </style>
+    <!-- reCAPTCHA v2 -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 
-    <div class="aurora-bg"></div>
-    <div class="aurora-waves"></div>
-    <div class="dark-overlay"></div>
+<div class="aurora-bg"></div>
+<div class="aurora-waves"></div>
+<div class="dark-overlay"></div>
+<div class="stars-container" id="starsContainer"></div>
 
-    <div class="stars-container" id="starsContainer"></div>
+<div class="container">
+    <img class="avatar" src="https://taplink.st/a/5/8/4/d/daec4f.jpg?1" alt="kvacan">
+    <h1>KVACAN</h1>
 
-    <!-- НАВИГАЦИЯ -->
-    <nav class="main-nav" id="mainNav">
-        <a href="#home" class="nav-brand" onclick="scrollToTop(event)">KVACAN</a>
-        <div class="nav-links" id="navLinks">
-            <a href="#home" class="nav-link" onclick="scrollToTop(event)">Главная</a>
-            <button class="nav-link highlight-nav" onclick="openPostsOverlay(event)" id="navPostsBtn">Актуальное</button>
-            <a href="#faq" class="nav-link">FAQ</a>
-            <a href="#social" class="nav-link">Соцсети</a>
-            <a href="#contacts" class="nav-link">Контакты</a>
-            <a href="#donation" class="nav-link">Поддержка</a>
-        </div>
-        <button class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="Меню">☰</button>
-    </nav>
+    <div class="divider">✦ ✦ ✦</div>
 
-    <!-- ОВЕРЛЕЙ ПОСТОВ -->
-    <div class="posts-overlay" id="postsOverlay" onclick="closePostsOverlayBg(event)">
-        <div class="posts-overlay-panel" onclick="event.stopPropagation()">
-            <div class="posts-overlay-header">
-                <h2>Актуальное</h2>
-                <button class="posts-overlay-close" onclick="closePostsOverlay()" aria-label="Закрыть">×</button>
+    <!-- Галерея -->
+    <div class="gallery-section">
+        <div class="gallery-title">Галерея фотографий</div>
+        <div class="carousel-wrapper" id="galleryWrapper">
+            <div class="carousel-track" id="galleryTrack">
+                <div class="carousel-slide"><img src="https://taplink.st/p/3/f/f/4/69250557.jpg?0" alt="Фото 1" loading="lazy"></div>
+                <div class="carousel-slide"><img src="https://taplink.st/p/4/f/f/b/69250559.jpg?0" alt="Фото 2" loading="lazy"></div>
+                <div class="carousel-slide"><img src="https://taplink.st/p/2/2/3/c/69471405.jpg?0" alt="Фото 3" loading="lazy"></div>
             </div>
-            <div id="postsContainer"><div class="loading">Загрузка постов...</div></div>
+        </div>
+        <div class="gallery-nav">
+            <button class="nav-btn" id="prevBtn">←</button>
+            <button class="nav-btn" id="nextBtn">→</button>
+        </div>
+        <div class="indicators" id="galleryIndicators"></div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section-block" id="faq">
+        <div class="section-title">Часто задаваемые вопросы</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Кто такой kvacan?</div>
+            <div class="faq-answer">kvacan — это Вячеслав. Человек, который решил не откладывать, а просто начать снимать. Здесь нет сценического образа или вымышленной личности. Всё по-настоящему.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Почему в ссылках tvacan, если автор представляется как kvacan?</div>
+            <div class="faq-answer">Хороший вопрос. Сейчас объясним.<br><br>kvacan — это ник. То самое имя, которое появилось в самом начале и под которым человека знают в сети. Оно не менялось и не поменяется.<br><br>Но с адресами в социальных сетях всё устроено немного сложнее. Когда стали собирать все ссылки в одном месте, оказалось, что не везде можно использовать одно и то же имя. Где-то kvacan уже был занят, где-то оказался свободен, но хотелось, чтобы все адреса были одинаковыми. Чтобы человек зашёл на сайт, нажал на иконку и попал куда нужно, не запоминая два или три разных варианта.<br><br>Поэтому выбрали tvacan. Всего одна буква — и порядок. Теперь все соцсети ведут на один адрес. Никакой путаницы, никаких лишних вопросов.<br><br>А kvacan остаётся тем же, чем и был — ником, по которому человека знают. Всё просто.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Зачем создан этот сайт?</div>
+            <div class="faq-answer">Это не проект и не портфолио. Это просто навигатор, входная дверь во все социальные сети сразу. Минимум текста, максимум пользы — все ссылки в одном месте.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Что особенного в контенте?</div>
+            <div class="faq-answer">Честность. Никаких постановочных студий, дорогих декораций или фальшивых эмоций. Только живые видео и фото, снятые в моменте. То, что окружает каждый день.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Как часто выходит новый контент?</div>
+            <div class="faq-answer">Контент появляется по мере того, как идёт жизнь. Маленькие шаги, регулярное движение, никаких жёстких дедлайнов — только искреннее желание делиться происходящим.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Чем контент будет отличаться в будущем?</div>
+            <div class="faq-answer">С развитием автора будет расти и контент. Главная задача — чтобы и создателю, и зрителю было комфортно. Форматы могут меняться, но основа останется — живые эмоции и честность.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Можно ли общаться с автором?</div>
+            <div class="faq-answer">Да. Все социальные сети открыты, ссылки на них есть на этом сайте. Можно писать, комментировать, обсуждать — диалог приветствуется.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Как можно поддержать?</div>
+            <div class="faq-answer">Если контент заходит и хочется сказать спасибо делом — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше. Ссылка на донат тоже здесь.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Это надолго?</div>
+            <div class="faq-answer">Пока есть желание снимать и делиться — контент будет жить. А желание есть.</div>
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО -->
-    <div class="modal" id="photoModal" onclick="closeModalOnBackground(event)">
-        <span class="modal-close" onclick="closeModal()">×</span>
-        <div class="modal-prev" onclick="prevImage(event)">‹</div>
-        <div class="modal-next" onclick="nextImage(event)">›</div>
-        <img class="modal-img" id="modalImage" src="" alt="Просмотр изображения">
-    </div>
+    <!-- Форма заявок -->
+    <div class="section-block" id="contactForm">
+        <div class="section-title">По всем вопросам и предложениям заполните форму ниже</div>
+        <div class="form-container">
+            <form id="requestForm">
+                <label>Как к вам обращаться?</label>
+                <input type="text" name="name" placeholder="Например: Вячеслав" required>
 
-    <!-- ЧАТ -->
-    <div class="chat-widget">
-        <div class="chat-btn" onclick="toggleChat()" aria-label="Чат"><span>✉</span></div>
-        <div class="chat-menu" id="chatMenu">
-            <a href="https://t.me/tvacan_bot" class="chat-link" target="_blank" rel="noopener">Связаться с поддержкой блогера</a>
-        </div>
-    </div>
+                <label>Ваш Telegram или E‑mail для связи</label>
+                <input type="text" name="contact" placeholder="@username или pochta@mail.ru" required>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
-    <div class="container" id="home">
-        <img class="avatar" src="https://taplink.st/a/5/8/4/d/daec4f.jpg?1" alt="kvacan">
-        <h1>KVACAN</h1>
+                <label>Тема обращения</label>
+                <select name="topic" required>
+                    <option value="" disabled selected>Выберите тему</option>
+                    <option value="Задать вопрос автору">Задать вопрос автору</option>
+                    <option value="Сотрудничество / Реклама">Сотрудничество / Реклама</option>
+                    <option value="Техническая проблема">Техническая проблема</option>
+                </select>
 
-        <div class="divider">✦ ✦ ✦</div>
+                <label>Опишите ситуацию подробно</label>
+                <textarea name="message" placeholder="Опишите, что случилось или что вас интересует..." required></textarea>
 
-        <!-- ГАЛЕРЕЯ -->
-        <div class="gallery-section">
-            <div class="gallery-title">Галерея фотографий</div>
-            <div class="carousel-wrapper" id="galleryWrapper">
-                <div class="carousel-track" id="galleryTrack">
-                    <div class="carousel-slide"><img src="https://taplink.st/p/3/f/f/4/69250557.jpg?0" alt="Фото 1" loading="lazy"></div>
-                    <div class="carousel-slide"><img src="https://taplink.st/p/4/f/f/b/69250559.jpg?0" alt="Фото 2" loading="lazy"></div>
-                    <div class="carousel-slide"><img src="https://taplink.st/p/2/2/3/c/69471405.jpg?0" alt="Фото 3" loading="lazy"></div>
+                <!-- reCAPTCHA v2 (замените data-sitekey на свой) -->
+                <div class="recaptcha-wrapper">
+                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                    <!-- Используется тестовый ключ Google, который всегда проходит проверку.
+                         Замените на ваш реальный ключ для рабочего сайта. -->
                 </div>
-            </div>
-            <div class="gallery-nav">
-                <button class="nav-btn" id="prevBtn" aria-label="Назад">←</button>
-                <button class="nav-btn" id="nextBtn" aria-label="Вперёд">→</button>
-            </div>
-            <div class="indicators" id="galleryIndicators"></div>
+                <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+
+                <button type="submit" class="btn" style="text-transform: none;">Отправить обращение</button>
+            </form>
+            <div id="formResult"></div>
         </div>
-
-        <!-- FAQ -->
-        <div class="section-block" id="faq">
-            <div class="section-title">Часто задаваемые вопросы</div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Кто такой kvacan?</div>
-                <div class="faq-answer">kvacan — это Вячеслав. Человек, который решил не откладывать, а просто начать снимать. Здесь нет сценического образа или вымышленной личности. Всё по-настоящему.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Почему в ссылках tvacan, если автор представляется как kvacan?</div>
-                <div class="faq-answer">Хороший вопрос. Сейчас объясним.<br><br>kvacan — это ник. То самое имя, которое появилось в самом начале и под которым человека знают в сети. Оно не менялось и не поменяется.<br><br>Но с адресами в социальных сетях всё устроено немного сложнее. Когда стали собирать все ссылки в одном месте, оказалось, что не везде можно использовать одно и то же имя. Где-то kvacan уже был занят, где-то оказался свободен, но хотелось, чтобы все адреса были одинаковыми. Чтобы человек зашёл на сайт, нажал на иконку и попал куда нужно, не запоминая два или три разных варианта.<br><br>Поэтому выбрали tvacan. Всего одна буква — и порядок. Теперь все соцсети ведут на один адрес. Никакой путаницы, никаких лишних вопросов.<br><br>А kvacan остаётся тем же, чем и был — ником, по которому человека знают. Всё просто.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Зачем создан этот сайт?</div>
-                <div class="faq-answer">Это не проект и не портфолио. Это просто навигатор, входная дверь во все социальные сети сразу. Минимум текста, максимум пользы — все ссылки в одном месте.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Что особенного в контенте?</div>
-                <div class="faq-answer">Честность. Никаких постановочных студий, дорогих декораций или фальшивых эмоций. Только живые видео и фото, снятые в моменте. То, что окружает каждый день.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Как часто выходит новый контент?</div>
-                <div class="faq-answer">Контент появляется по мере того, как идёт жизнь. Маленькие шаги, регулярное движение, никаких жёстких дедлайнов — только искреннее желание делиться происходящим.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Чем контент будет отличаться в будущем?</div>
-                <div class="faq-answer">С развитием автора будет расти и контент. Главная задача — чтобы и создателю, и зрителю было комфортно. Форматы могут меняться, но основа останется — живые эмоции и честность.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Можно ли общаться с автором?</div>
-                <div class="faq-answer">Да. Все социальные сети открыты, ссылки на них есть на этом сайте. Можно писать, комментировать, обсуждать — диалог приветствуется.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Как можно поддержать?</div>
-                <div class="faq-answer">Если контент заходит и хочется сказать спасибо делом — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше. Ссылка на донат тоже здесь.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">Это надолго?</div>
-                <div class="faq-answer">Пока есть желание снимать и делиться — контент будет жить. А желание есть.</div>
-            </div>
-        </div>
-
-        <!-- ФОРМА ЗАЯВОК (ЯНДЕКС) -->
-        <div class="section-block" id="yandexFormSection">
-            <div class="section-title">Заявки и реклама</div>
-            <div class="section-subtitle">Если вы хотите связаться с автором или приобрести рекламу — заполните заявку ниже</div>
-            <div class="yandex-form-wrapper">
-                <script src="https://forms.yandex.ru/_static/embed.js"></script>
-                <iframe src="https://forms.yandex.ru/u/69ef1c474936390020e12b7b?iframe=1" frameborder="0" name="ya-form-69ef1c474936390020e12b7b" width="100%" title="Форма заявки"></iframe>
-            </div>
-        </div>
-
-        <!-- СОЦСЕТИ -->
-        <div class="section-block" id="social">
-            <div class="section-title">Социальные сети</div>
-            <div class="section-subtitle">Переходи, смотри, подписывайся</div>
-            <div class="btn-group">
-                <a href="https://t.me/tvacan" class="btn" target="_blank" rel="noopener">TELEGRAM</a>
-                <a href="https://instagram.com/tvacan/" class="btn" target="_blank" rel="noopener">INSTAGRAM</a>
-                <a href="https://www.tiktok.com/@kvacon" class="btn" target="_blank" rel="noopener">TIKTOK</a>
-            </div>
-        </div>
-
-        <!-- КОНТАКТЫ -->
-        <div class="section-block" id="contacts">
-            <div class="section-title">Контакты для связи</div>
-            <div class="section-subtitle">По вопросам рекламы и сотрудничества</div>
-            <div class="btn-group">
-                <a href="https://t.me/kvacan" class="btn btn-small" target="_blank" rel="noopener">TELEGRAM</a>
-                <a href="mailto:tvacan@internet.ru" class="btn btn-small">EMAIL</a>
-            </div>
-        </div>
-
-        <!-- ПОДДЕРЖКА -->
-        <div class="section-block" id="donation">
-            <div class="section-title">Поддержка</div>
-            <div class="section-subtitle">Если заходит — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше.</div>
-            <div class="btn-group">
-                <a href="https://pay.cloudtips.ru/p/a64a46d8" class="btn btn-small" target="_blank" rel="noopener">DONATION</a>
-                <a href="https://finance.ozon.ru/apps/sbp/ozonbankpay/019a9ca8-77bb-7f0f-a532-53c7dca11b0b" class="btn btn-small" target="_blank" rel="noopener">DONATION</a>
-            </div>
-        </div>
-
-        <footer>
-            <div class="copyright">© 2026 kvacan, Все права защищены.</div>
-            <div class="footer-email"><a href="mailto:tvacan@internet.ru">tvacan@internet.ru</a></div>
-        </footer>
     </div>
 
-    <script>
-        // ==================== ЗВЕЗДЫ (МЕРЦАЮЩИЕ + ПАДАЮЩИЕ ПРИ СКРОЛЛЕ) ====================
-        const starsContainer = document.getElementById('starsContainer');
-        starsContainer.style.position = 'fixed';
-        starsContainer.style.top = '0';
-        starsContainer.style.left = '0';
-        starsContainer.style.width = '100%';
-        starsContainer.style.height = '100%';
-        starsContainer.style.pointerEvents = 'none';
-        starsContainer.style.zIndex = '5';
+    <!-- Соцсети -->
+    <div class="section-block" id="social">
+        <div class="section-title">Социальные сети</div>
+        <div class="section-subtitle">Переходи, смотри, подписывайся</div>
+        <div class="btn-group">
+            <a href="https://t.me/tvacan" class="btn" target="_blank">TELEGRAM</a>
+            <a href="https://instagram.com/tvacan/" class="btn" target="_blank">INSTAGRAM</a>
+            <a href="https://www.tiktok.com/@kvacon" class="btn" target="_blank">TIKTOK</a>
+        </div>
+    </div>
 
-        // МЕРЦАЮЩИЕ ЗВЕЗДЫ
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.style.position = 'absolute';
-            star.style.width = Math.random() * 2 + 0.8 + 'px';
-            star.style.height = star.style.width;
-            star.style.background = 'white';
-            star.style.borderRadius = '50%';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.opacity = Math.random() * 0.5 + 0.2;
-            star.style.animation = `twinkleStar ${Math.random() * 4 + 2.5}s ease-in-out infinite`;
-            star.style.animationDelay = Math.random() * 6 + 's';
-            star.style.willChange = 'opacity, transform';
-            starsContainer.appendChild(star);
+    <!-- Контакты -->
+    <div class="section-block" id="contacts">
+        <div class="section-title">Контакты для связи</div>
+        <div class="section-subtitle">По вопросам рекламы и сотрудничества</div>
+        <div class="btn-group">
+            <a href="https://t.me/kvacan" class="btn btn-small" target="_blank">TELEGRAM</a>
+            <a href="mailto:tvacan@internet.ru" class="btn btn-small">EMAIL</a>
+        </div>
+    </div>
+
+    <!-- Поддержка -->
+    <div class="section-block" id="donation">
+        <div class="section-title">Поддержка</div>
+        <div class="section-subtitle">Если заходит — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше.</div>
+        <div class="btn-group">
+            <a href="https://pay.cloudtips.ru/p/a64a46d8" class="btn btn-small" target="_blank">DONATION</a>
+            <a href="https://finance.ozon.ru/apps/sbp/ozonbankpay/019a9ca8-77bb-7f0f-a532-53c7dca11b0b" class="btn btn-small" target="_blank">DONATION</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="copyright">© 2026 kvacan, Все права защищены.</div>
+        <div class="footer-email"><a href="mailto:tvacan@internet.ru">tvacan@internet.ru</a></div>
+    </footer>
+</div>
+
+<script>
+    // Звёзды (мерцающие + падающие) – оптимизировано: меньше объектов, композитный слой
+    const starsContainer = document.getElementById('starsContainer');
+    const starCount = 50; // снижено для производительности
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.style.position = 'absolute';
+        star.style.width = Math.random() * 2 + 0.8 + 'px';
+        star.style.height = star.style.width;
+        star.style.background = 'white';
+        star.style.borderRadius = '50%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.opacity = Math.random() * 0.4 + 0.15;
+        star.style.animation = `twinkleStar ${Math.random() * 4 + 2.5}s ease-in-out infinite`;
+        star.style.animationDelay = Math.random() * 6 + 's';
+        star.style.willChange = 'opacity, transform';
+        starsContainer.appendChild(star);
+    }
+    const starKeyframes = document.createElement('style');
+    starKeyframes.textContent = `@keyframes twinkleStar { 0%,100%{opacity:0.15; transform:scale(0.6)} 50%{opacity:0.7; transform:scale(1.2)} }`;
+    document.head.appendChild(starKeyframes);
+
+    let shootingActive = false;
+    let shootingTimeout;
+    function createShootingStar() {
+        const star = document.createElement('div');
+        star.style.position = 'absolute';
+        star.style.width = '2.5px';
+        star.style.height = '2.5px';
+        star.style.background = 'linear-gradient(135deg, #a0ffcc, #6a5ac0)';
+        star.style.borderRadius = '50%';
+        star.style.left = Math.random() * 80 + 10 + '%';
+        star.style.top = '-10px';
+        star.style.pointerEvents = 'none';
+        star.style.zIndex = '6';
+        star.style.opacity = '0';
+        star.style.willChange = 'transform, opacity';
+        star.style.animation = `shootStar ${Math.random() * 2 + 1.5}s linear forwards`;
+        starsContainer.appendChild(star);
+        setTimeout(() => { if (star.parentNode) star.remove(); }, 2800);
+    }
+    const shootKeyframes = document.createElement('style');
+    shootKeyframes.textContent = `@keyframes shootStar { 0%{transform:translateX(0) translateY(0); opacity:0} 5%{opacity:1} 20%{opacity:1} 25%{opacity:0} 100%{transform:translateX(-180px) translateY(350px); opacity:0} }`;
+    document.head.appendChild(shootKeyframes);
+
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', () => {
+        const diff = Math.abs(window.scrollY - lastScrollY);
+        if (diff > 15 && !shootingActive) {
+            shootingActive = true;
+            for (let i = 0; i < 2; i++) setTimeout(createShootingStar, i * 200);
+            clearTimeout(shootingTimeout);
+            shootingTimeout = setTimeout(() => { shootingActive = false; }, 800);
         }
+        lastScrollY = window.scrollY;
+    }, { passive: true });
 
-        const starStyle = document.createElement('style');
-        starStyle.textContent = `
-            @keyframes twinkleStar {
-                0%, 100% { opacity: 0.15; transform: scale(0.6); }
-                50% { opacity: 0.8; transform: scale(1.2); }
-            }
-        `;
-        document.head.appendChild(starStyle);
+    // Галерея
+    const track = document.getElementById('galleryTrack');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const indicatorsContainer = document.getElementById('galleryIndicators');
+    let currentIndex = 0;
 
-        // ПАДАЮЩИЕ ЗВЕЗДЫ ПРИ СКРОЛЛЕ
-        let shootingStarsActive = false;
-        let shootingStarTimeout = null;
+    slides.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'indicator';
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(i));
+        indicatorsContainer.appendChild(dot);
+    });
+    const indicators = document.querySelectorAll('.indicator');
 
-        function createShootingStar() {
-            const star = document.createElement('div');
-            star.style.position = 'absolute';
-            star.style.width = '2.5px';
-            star.style.height = '2.5px';
-            star.style.background = 'linear-gradient(135deg, #a0ffcc, #6a5ac0)';
-            star.style.borderRadius = '50%';
-            star.style.left = Math.random() * 80 + 10 + '%';
-            star.style.top = '-10px';
-            star.style.pointerEvents = 'none';
-            star.style.zIndex = '6';
-            star.style.opacity = '0';
-            star.style.willChange = 'transform, opacity';
-            star.style.animation = `shootStar ${Math.random() * 2 + 1.5}s linear forwards`;
-            starsContainer.appendChild(star);
-
-            setTimeout(() => {
-                if (star.parentNode) star.remove();
-            }, 2800);
-        }
-
-        const shootStyle = document.createElement('style');
-        shootStyle.textContent = `
-            @keyframes shootStar {
-                0% { transform: translateX(0) translateY(0); opacity: 0; }
-                5% { opacity: 1; }
-                20% { opacity: 1; }
-                25% { opacity: 0; }
-                100% { transform: translateX(-180px) translateY(350px); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(shootStyle);
-
-        let lastScrollY = window.scrollY;
-
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
-            const scrollDiff = Math.abs(currentScrollY - lastScrollY);
-            const mainNav = document.getElementById('mainNav');
-
-            // Класс для навбара при скролле
-            if (currentScrollY > 50) {
-                mainNav.classList.add('scrolled');
-            } else {
-                mainNav.classList.remove('scrolled');
-            }
-
-            // Падающие звезды
-            if (scrollDiff > 15 && !shootingStarsActive) {
-                shootingStarsActive = true;
-                for (let i = 0; i < 2; i++) {
-                    setTimeout(() => createShootingStar(), i * 200);
-                }
-                if (shootingStarTimeout) clearTimeout(shootingStarTimeout);
-                shootingStarTimeout = setTimeout(() => {
-                    shootingStarsActive = false;
-                }, 800);
-            }
-            lastScrollY = currentScrollY;
-        }, { passive: true });
-
-        // ==================== НАВИГАЦИЯ ====================
-        function toggleNav() {
-            const navLinks = document.getElementById('navLinks');
-            const navToggle = document.getElementById('navToggle');
-            navLinks.classList.toggle('show');
-            if (navLinks.classList.contains('show')) {
-                navToggle.textContent = '✕';
-                navToggle.style.transform = 'rotate(90deg)';
-            } else {
-                navToggle.textContent = '☰';
-                navToggle.style.transform = 'rotate(0deg)';
-            }
-        }
-
-        function scrollToTop(e) {
-            if (e) e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.remove('show');
-            document.getElementById('navToggle').textContent = '☰';
-            document.getElementById('navToggle').style.transform = 'rotate(0deg)';
-        }
-
-        // Закрытие мобильного меню при клике вне его
-        document.addEventListener('click', (e) => {
-            const navLinks = document.getElementById('navLinks');
-            const navToggle = document.getElementById('navToggle');
-            const mainNav = document.getElementById('mainNav');
-            if (navLinks.classList.contains('show') &&
-                !mainNav.contains(e.target)) {
-                navLinks.classList.remove('show');
-                navToggle.textContent = '☰';
-                navToggle.style.transform = 'rotate(0deg)';
-            }
+    function updateIndicators() {
+        indicators.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentIndex);
         });
+    }
 
-        // Закрытие мобильного меню при клике на ссылку
-        document.querySelectorAll('#navLinks .nav-link:not(#navPostsBtn)').forEach(link => {
-            link.addEventListener('click', () => {
-                const navLinks = document.getElementById('navLinks');
-                const navToggle = document.getElementById('navToggle');
-                setTimeout(() => {
-                    navLinks.classList.remove('show');
-                    navToggle.textContent = '☰';
-                    navToggle.style.transform = 'rotate(0deg)';
-                }, 150);
-            });
-        });
+    function goToSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= slides.length) index = slides.length - 1;
+        currentIndex = index;
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        updateIndicators();
+    }
 
-        // ==================== ОВЕРЛЕЙ ПОСТОВ ====================
-        function openPostsOverlay(e) {
-            if (e) e.preventDefault();
-            const overlay = document.getElementById('postsOverlay');
-            overlay.classList.add('show');
-            document.body.style.overflow = 'hidden';
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.remove('show');
-            document.getElementById('navToggle').textContent = '☰';
-            document.getElementById('navToggle').style.transform = 'rotate(0deg)';
-        }
+    function nextSlide() {
+        if (currentIndex < slides.length - 1) goToSlide(currentIndex + 1);
+        else goToSlide(0);
+    }
 
-        function closePostsOverlay() {
-            const overlay = document.getElementById('postsOverlay');
-            overlay.classList.remove('show');
-            document.body.style.overflow = '';
-        }
+    function prevSlide() {
+        if (currentIndex > 0) goToSlide(currentIndex - 1);
+        else goToSlide(slides.length - 1);
+    }
 
-        function closePostsOverlayBg(e) {
-            if (e.target === document.getElementById('postsOverlay')) {
-                closePostsOverlay();
-            }
-        }
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                const overlay = document.getElementById('postsOverlay');
-                if (overlay.classList.contains('show')) {
-                    closePostsOverlay();
-                }
-                const modal = document.getElementById('photoModal');
-                if (modal.classList.contains('show')) {
-                    closeModal();
-                }
-            }
-            if (e.key === 'ArrowLeft' && document.getElementById('photoModal').classList.contains('show'))
-                prevImage(e);
-            if (e.key === 'ArrowRight' && document.getElementById('photoModal').classList.contains(
-                'show')) nextImage(e);
-        });
-
-        // ==================== ГАЛЕРЕЯ ====================
-        const track = document.getElementById('galleryTrack');
-        const slides = document.querySelectorAll('.carousel-slide');
-        const prevButton = document.getElementById('prevBtn');
-        const nextButton = document.getElementById('nextBtn');
-        const indicatorsContainer = document.getElementById('galleryIndicators');
-        let currentIndex = 0;
-        let isDragging = false;
-        let startX = 0;
-
-        slides.forEach((_, i) => {
-            const dot = document.createElement('div');
-            dot.classList.add('indicator');
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
-            indicatorsContainer.appendChild(dot);
-        });
-        const indicators = document.querySelectorAll('.indicator');
-
-        function updateIndicators() {
-            indicators.forEach((dot, i) => {
-                if (i === currentIndex) dot.classList.add('active');
-                else dot.classList.remove('active');
-            });
-        }
-
-        function goToSlide(index) {
-            if (index < 0) index = 0;
-            if (index >= slides.length) index = slides.length - 1;
-            currentIndex = index;
-            track.style.transform = `translateX(-${currentIndex * 100}%)`;
-            updateIndicators();
-        }
-
-        function nextSlide() {
-            if (currentIndex < slides.length - 1) goToSlide(currentIndex + 1);
-            else goToSlide(0);
-        }
-
-        function prevSlide() {
-            if (currentIndex > 0) goToSlide(currentIndex - 1);
-            else goToSlide(slides.length - 1);
-        }
-
-        prevButton.addEventListener('click', prevSlide);
-        nextButton.addEventListener('click', nextSlide);
-
-        const wrapper = document.getElementById('galleryWrapper');
-        wrapper.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            isDragging = true;
-        }, { passive: true });
-        wrapper.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            const moveX = e.touches[0].clientX;
-            const diff = moveX - startX;
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) prevSlide();
-                else nextSlide();
-                isDragging = false;
-            }
-        }, { passive: true });
-        wrapper.addEventListener('touchend', () => { isDragging = false; });
-
-        // Поддержка свайпов мышью для галереи
-        wrapper.addEventListener('mousedown', (e) => {
-            startX = e.clientX;
-            isDragging = true;
-        });
-        wrapper.addEventListener('mouseup', (e) => {
-            if (!isDragging) return;
-            const diff = e.clientX - startX;
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) prevSlide();
-                else nextSlide();
-            }
+    const wrapper = document.getElementById('galleryWrapper');
+    let startX = 0;
+    let isDragging = false;
+    wrapper.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+    }, { passive: true });
+    wrapper.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const diff = e.touches[0].clientX - startX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) prevSlide();
+            else nextSlide();
             isDragging = false;
-        });
-        wrapper.addEventListener('mouseleave', () => { isDragging = false; });
+        }
+    }, { passive: true });
+    wrapper.addEventListener('touchend', () => { isDragging = false; });
 
-        // ==================== ПОСТЫ ====================
-        const CSV_URL =
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdSZzujU8slFBMeyFuo5r_Wo-IGtSD2XenkggmvSVDHxueB5v0JsZ2X90SPR5XlEb_JHXGYt2GCV-w/pub?output=csv";
+    // FAQ аккордеон
+    function toggleFaq(element) {
+        const currentlyActive = document.querySelector('.faq-question.active');
+        if (currentlyActive && currentlyActive !== element) {
+            currentlyActive.classList.remove('active');
+            currentlyActive.nextElementSibling.classList.remove('show');
+        }
+        element.classList.toggle('active');
+        element.nextElementSibling.classList.toggle('show');
+    }
 
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/[&<>]/g, m => {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
+    // Форма обратной связи (Google Sheets)
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxSGSPVNzLAw6m6NsMnSEHCUAVT-YsICrV01OU7SC7326QcgD1le-4VbzpKE6hPyGG0HQ/exec";
+    const form = document.getElementById('requestForm');
+    const resultDiv = document.getElementById('formResult');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Проверка reCAPTCHA
+        const recaptchaResponse = grecaptcha.getResponse();
+        if (!recaptchaResponse) {
+            resultDiv.innerHTML = '<div class="result-message error">Пожалуйста, подтвердите, что вы не робот.</div>';
+            return;
+        }
+
+        const formData = new FormData(form);
+        const data = {
+            name: formData.get('name'),
+            contact: formData.get('contact'),
+            topic: formData.get('topic'),
+            message: formData.get('message'),
+            recaptcha: recaptchaResponse,
+            timestamp: new Date().toLocaleString('ru-RU')
+        };
+
+        resultDiv.innerHTML = '<div class="result-message" style="background:rgba(100,200,150,0.15); border-color:#a0ffcc;">Отправка...</div>';
+
+        try {
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(data)
             });
+
+            resultDiv.innerHTML = '<div class="result-message success">Спасибо, обращение принято. Мы ответим в ближайшее время.</div>';
+            form.reset();
+            grecaptcha.reset();
+        } catch (error) {
+            resultDiv.innerHTML = '<div class="result-message error">Ошибка отправки. Попробуйте позже.</div>';
         }
+    });
 
-        function isImageUrl(url) {
-            return /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(url.split('?')[0]);
-        }
-
-        function isVideoUrl(url) {
-            return /\.(mp4|webm|mov|avi|mkv)$/i.test(url.split('?')[0]) ||
-                url.includes('youtube.com/watch') || url.includes('youtu.be') || url.includes('vimeo.com');
-        }
-
-        function getVideoEmbedUrl(url) {
-            if (url.includes('youtube.com/watch')) {
-                let videoId = new URL(url).searchParams.get('v');
-                if (videoId) return `https://www.youtube.com/embed/${videoId}`;
-            } else if (url.includes('youtu.be')) {
-                let videoId = url.split('/').pop().split('?')[0];
-                if (videoId) return `https://www.youtube.com/embed/${videoId}`;
-            } else if (url.includes('vimeo.com')) {
-                let videoId = url.split('/').pop().split('?')[0];
-                if (videoId) return `https://player.vimeo.com/video/${videoId}`;
-            }
-            return url;
-        }
-
-        function createPostCarousel(mediaUrls, postId) {
-            if (!mediaUrls || mediaUrls.length === 0) return '';
-            const items = mediaUrls.map(url => {
-                const trimmed = url.trim();
-                if (isImageUrl(trimmed)) {
-                    return `<div class="post-slide"><img src="${trimmed}" loading="lazy" onclick="openPostImage('${trimmed}')" alt="Изображение поста"></div>`;
-                } else if (isVideoUrl(trimmed)) {
-                    const embed = getVideoEmbedUrl(trimmed);
-                    return `<div class="post-slide"><iframe src="${embed}" loading="lazy" allowfullscreen title="Видео"></iframe></div>`;
-                } else {
-                    return `<div class="post-slide" style="padding:30px; display:flex; align-items:center; justify-content:center;">
-                                <a href="${trimmed}" target="_blank" rel="noopener" class="post-link-btn">Перейти</a>
-                            </div>`;
-                }
-            }).join('');
-            const indicatorsHtml = mediaUrls.length > 1 ?
-                `<div class="post-indicators" id="postIndicators-${postId}">
-                    ${mediaUrls.map((_, idx) => `<div class="post-dot ${idx === 0 ? 'active' : ''}" data-index="${idx}"></div>`).join('')}
-                </div>` : '';
-            return `
-                <div class="post-carousel" data-post="${postId}">
-                    <div class="post-track" id="postTrack-${postId}">
-                        ${items}
-                    </div>
-                    ${indicatorsHtml}
-                </div>
-            `;
-        }
-
-        function initPostCarousels() {
-            document.querySelectorAll('.post-carousel').forEach(carousel => {
-                const postId = carousel.dataset.post;
-                const postTrack = document.getElementById(`postTrack-${postId}`);
-                if (!postTrack) return;
-                const postSlides = postTrack.querySelectorAll('.post-slide');
-                if (postSlides.length <= 1) return;
-                let current = 0;
-                let start = 0;
-                let dragging = false;
-                const dots = document.querySelectorAll(`#postIndicators-${postId} .post-dot`);
-
-                function updateDots() {
-                    dots.forEach((dot, i) => {
-                        if (i === current) dot.classList.add('active');
-                        else dot.classList.remove('active');
-                    });
-                }
-
-                function goTo(idx) {
-                    if (idx < 0) idx = 0;
-                    if (idx >= postSlides.length) idx = postSlides.length - 1;
-                    current = idx;
-                    postTrack.style.transform = `translateX(-${current * 100}%)`;
-                    updateDots();
-                }
-
-                function next() {
-                    if (current < postSlides.length - 1) goTo(current + 1);
-                    else goTo(0);
-                }
-
-                function prev() {
-                    if (current > 0) goTo(current - 1);
-                    else goTo(postSlides.length - 1);
-                }
-
-                dots.forEach(dot => {
-                    dot.addEventListener('click', (e) => {
-                        const idx = parseInt(e.target.dataset.index);
-                        goTo(idx);
-                    });
-                });
-
-                postTrack.addEventListener('touchstart', (e) => {
-                    start = e.touches[0].clientX;
-                    dragging = true;
-                }, { passive: true });
-                postTrack.addEventListener('touchmove', (e) => {
-                    if (!dragging) return;
-                    const move = e.touches[0].clientX;
-                    const diff = move - start;
-                    if (Math.abs(diff) > 50) {
-                        if (diff > 0) prev();
-                        else next();
-                        dragging = false;
-                    }
-                }, { passive: true });
-                postTrack.addEventListener('touchend', () => { dragging = false; });
-
-                // Поддержка свайпов мышью
-                postTrack.addEventListener('mousedown', (e) => {
-                    start = e.clientX;
-                    dragging = true;
-                });
-                postTrack.addEventListener('mouseup', (e) => {
-                    if (!dragging) return;
-                    const diff = e.clientX - start;
-                    if (Math.abs(diff) > 50) {
-                        if (diff > 0) prev();
-                        else next();
-                    }
-                    dragging = false;
-                });
-                postTrack.addEventListener('mouseleave', () => { dragging = false; });
-            });
-        }
-
-        async function loadPosts() {
-            const container = document.getElementById('postsContainer');
-            if (!container) return;
-            try {
-                const response = await fetch(CSV_URL);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const csvText = await response.text();
-                const posts = parseCSV(csvText);
-                renderPosts(posts);
-            } catch (e) {
-                console.error('Ошибка загрузки постов:', e);
-                container.innerHTML =
-                    '<div class="loading">Ошибка загрузки постов. Пожалуйста, попробуйте позже.</div>';
-            }
-        }
-
-        function parseCSV(csvText) {
-            const posts = [];
-            let inQuote = false;
-            let current = '';
-            let row = [];
-            let isFirstRow = true;
-
-            for (let i = 0; i < csvText.length; i++) {
-                const ch = csvText[i];
-                if (ch === '"') inQuote = !inQuote;
-                else if (ch === ',' && !inQuote) { row.push(current);
-                    current = ''; } else if (ch === '\n' && !inQuote) {
-                    if (current !== '' || row.length > 0) {
-                        row.push(current);
-                        if (!isFirstRow && row.length >= 2 && row[1] && row[1].trim() && row[1].toLowerCase() !==
-                            'заголовок') {
-                            posts.push({
-                                date: row[0] ? row[0].replace(/^"|"$/g, '').trim() : '',
-                                title: row[1] ? row[1].replace(/^"|"$/g, '').trim() : '',
-                                text: row[2] ? row[2].replace(/^"|"$/g, '').trim() : '',
-                                mediaUrl: row[3] ? row[3].replace(/^"|"$/g, '').trim() : ''
-                            });
-                        }
-                        isFirstRow = false;
-                    }
-                    row = [];
-                    current = '';
-                } else { current += ch; }
-            }
-            return posts;
-        }
-
-        function renderPosts(posts) {
-            const container = document.getElementById('postsContainer');
-            if (!posts.length) {
-                container.innerHTML = '<div class="loading">Пока нет постов</div>';
-                return;
-            }
-            container.innerHTML = posts.map((post, idx) => {
-                let mediaHtml = '';
-                if (post.mediaUrl && post.mediaUrl.trim()) {
-                    const mediaUrls = post.mediaUrl.split('|').map(u => u.trim()).filter(u => u);
-                    if (mediaUrls.length > 0) mediaHtml = createPostCarousel(mediaUrls, `post${idx}`);
-                }
-                const textWithLinks = post.text.replace(
-                    /(https?:\/\/[^\s]+)/g,
-                    '<a href="$1" target="_blank" rel="noopener">$1</a>'
-                );
-                return `
-                    <div class="post-card">
-                        <div class="post-date">${escapeHtml(post.date)}</div>
-                        <div class="post-title">${escapeHtml(post.title)}</div>
-                        <div class="post-content">${textWithLinks}</div>
-                        ${mediaHtml}
-                    </div>
-                `;
-            }).join('');
-            setTimeout(initPostCarousels, 150);
-        }
-
-        // ==================== МОДАЛЬНОЕ ОКНО ====================
-        let currentGallery = [];
-        let currentImageIndex = 0;
-
-        function openPostImage(url) {
-            currentGallery = [url];
-            currentImageIndex = 0;
-            updateModalImage();
-            document.getElementById('photoModal').classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function updateModalImage() {
-            const img = document.getElementById('modalImage');
-            if (currentGallery.length > 0 && currentImageIndex >= 0 && currentImageIndex < currentGallery.length) {
-                img.src = currentGallery[currentImageIndex];
-            }
-        }
-
-        function nextImage(e) {
-            if (e) e.stopPropagation();
-            if (currentGallery.length <= 1) return;
-            currentImageIndex = (currentImageIndex + 1) % currentGallery.length;
-            updateModalImage();
-        }
-
-        function prevImage(e) {
-            if (e) e.stopPropagation();
-            if (currentGallery.length <= 1) return;
-            currentImageIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
-            updateModalImage();
-        }
-
-        function closeModalOnBackground(e) {
-            if (e.target === document.getElementById('photoModal')) closeModal();
-        }
-
-        function closeModal() {
-            document.getElementById('photoModal').classList.remove('show');
-            document.body.style.overflow = '';
-        }
-
-        const modal = document.getElementById('photoModal');
-        if (modal) {
-            let touchStartModal = 0;
-            modal.addEventListener('touchstart', (e) => { touchStartModal = e.touches[0].clientX; }, { passive: true });
-            modal.addEventListener('touchend', (e) => {
-                if (currentGallery.length <= 1) return;
-                const touchEnd = e.changedTouches[0].clientX;
-                if (touchEnd < touchStartModal - 50) nextImage(e);
-                if (touchEnd > touchStartModal + 50) prevImage(e);
-            });
-        }
-
-        // ==================== FAQ ====================
-        function toggleFaq(element) {
-            const wasActive = element.classList.contains('active');
-            // Закрыть все остальные
-            document.querySelectorAll('.faq-question.active').forEach(q => {
-                q.classList.remove('active');
-                q.nextElementSibling.classList.remove('show');
-            });
-            // Открыть/закрыть текущий
-            if (!wasActive) {
-                element.classList.add('active');
-                element.nextElementSibling.classList.add('show');
-            }
-        }
-
-        // ==================== ЧАТ ====================
-        function toggleChat() {
-            document.getElementById('chatMenu').classList.toggle('show');
-        }
-
-        document.addEventListener('click', (e) => {
-            const chatWidget = document.querySelector('.chat-widget');
-            const chatMenu = document.getElementById('chatMenu');
-            if (chatWidget && chatMenu && !chatWidget.contains(e.target)) {
-                chatMenu.classList.remove('show');
-            }
-        });
-
-        // ==================== ЗАПУСК ====================
-        loadPosts();
-
-        // ==================== ГЛОБАЛЬНЫЕ ФУНКЦИИ ====================
-        window.openPostImage = openPostImage;
-        window.toggleFaq = toggleFaq;
-        window.toggleChat = toggleChat;
-        window.nextImage = nextImage;
-        window.prevImage = prevImage;
-        window.closeModal = closeModal;
-        window.closeModalOnBackground = closeModalOnBackground;
-        window.openPostsOverlay = openPostsOverlay;
-        window.closePostsOverlay = closePostsOverlay;
-        window.closePostsOverlayBg = closePostsOverlayBg;
-        window.toggleNav = toggleNav;
-        window.scrollToTop = scrollToTop;
-
-        // ==================== ИНИЦИАЛИЗАЦИЯ НАВБАРА ПРИ ЗАГРУЗКЕ ====================
-        if (window.scrollY > 50) {
-            document.getElementById('mainNav').classList.add('scrolled');
-        }
-    </script>
+    // Глобальные функции
+    window.toggleFaq = toggleFaq;
+</script>
 
 </body>
 </html>
