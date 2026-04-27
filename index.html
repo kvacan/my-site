@@ -7,7 +7,6 @@
     <link rel="icon" href="https://taplink.st/a/5/8/4/d/daec4f.jpg?1">
     <link rel="apple-touch-icon" href="https://taplink.st/a/5/8/4/d/daec4f.jpg?1">
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
-
     <style>
         * {
             margin: 0;
@@ -15,8 +14,10 @@
             box-sizing: border-box;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
-
         :root {
             --aurora-green: #a0ffcc;
             --glass-bg: rgba(20, 20, 50, 0.45);
@@ -24,12 +25,10 @@
             --transition-smooth: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-
         html {
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
         }
-
         body {
             font-family: 'Russo One', sans-serif;
             background: #0a0520;
@@ -38,9 +37,10 @@
             position: relative;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
-
-        /* Северное сияние – форсируем композитинг для плавности */
         .aurora-bg {
             position: fixed;
             top: 0;
@@ -48,16 +48,13 @@
             width: 100%;
             height: 100%;
             z-index: 0;
-            background: linear-gradient(125deg,
-                    #0a0a2a 0%, #0a2a2a 15%, #1a0a3a 30%,
-                    #0a3a4a 45%, #2a1a5a 60%, #0a2a5a 75%, #0a0a2a 100%);
+            background: linear-gradient(125deg, #0a0a2a 0%, #0a2a2a 15%, #1a0a3a 30%, #0a3a4a 45%, #2a1a5a 60%, #0a2a5a 75%, #0a0a2a 100%);
             background-size: 400% 400%;
             animation: auroraFlow 15s ease infinite;
             transform: translateZ(0);
             backface-visibility: hidden;
             will-change: background-position;
         }
-
         @keyframes auroraFlow {
             0% { background-position: 0% 50%; }
             25% { background-position: 50% 100%; }
@@ -65,7 +62,6 @@
             75% { background-position: 50% 0%; }
             100% { background-position: 0% 50%; }
         }
-
         .aurora-waves {
             position: fixed;
             top: 0;
@@ -74,19 +70,15 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
-            background: radial-gradient(ellipse at 20% 40%, rgba(100,200,150,0.1) 0%, transparent 50%),
-                        radial-gradient(ellipse at 80% 60%, rgba(80,150,200,0.1) 0%, transparent 50%),
-                        radial-gradient(ellipse at 50% 80%, rgba(150,100,200,0.08) 0%, transparent 60%);
+            background: radial-gradient(ellipse at 20% 40%, rgba(100,200,150,0.1) 0%, transparent 50%), radial-gradient(ellipse at 80% 60%, rgba(80,150,200,0.1) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(150,100,200,0.08) 0%, transparent 60%);
             animation: auroraPulse 8s ease-in-out infinite;
             transform: translateZ(0);
             backface-visibility: hidden;
         }
-
         @keyframes auroraPulse {
             0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
         }
-
         .dark-overlay {
             position: fixed;
             top: 0;
@@ -97,8 +89,6 @@
             z-index: 2;
             pointer-events: none;
         }
-
-        /* Звёзды – отдельный композитный слой */
         .stars-container {
             position: fixed;
             top: 0;
@@ -110,8 +100,6 @@
             transform: translateZ(0);
             backface-visibility: hidden;
         }
-
-        /* Контейнер */
         .container {
             max-width: 550px;
             margin: 0 auto;
@@ -119,15 +107,9 @@
             position: relative;
             z-index: 15;
         }
-
         @media (min-width: 768px) {
-            .container {
-                max-width: 600px;
-                padding: 70px 20px 80px 20px;
-            }
+            .container { max-width: 600px; padding: 70px 20px 80px 20px; }
         }
-
-        /* Аватар и заголовок */
         .avatar {
             width: 140px;
             height: 140px;
@@ -142,12 +124,10 @@
             transform: translateZ(0);
             will-change: transform;
         }
-
         .avatar:hover {
             box-shadow: 0 14px 45px rgba(100,200,200,0.55);
             transform: scale(1.03);
         }
-
         h1 {
             font-size: 3.2rem;
             text-align: center;
@@ -159,17 +139,14 @@
             font-weight: 400;
             transition: all var(--transition-smooth);
         }
-
         h1:hover {
             text-shadow: 0 0 40px rgba(100,200,200,0.9);
             letter-spacing: 5px;
         }
-
         @media (max-width: 480px) {
             h1 { font-size: 2.3rem; letter-spacing: 1px; margin-bottom: 18px; }
             .avatar { width: 110px; height: 110px; }
         }
-
         .divider {
             text-align: center;
             margin: 20px 0 15px;
@@ -178,13 +155,10 @@
             letter-spacing: 8px;
             animation: dividerGlow 3s ease-in-out infinite;
         }
-
         @keyframes dividerGlow {
             0%, 100% { text-shadow: 0 0 6px rgba(100,200,150,0.3); }
             50% { text-shadow: 0 0 18px rgba(100,200,150,0.7); }
         }
-
-        /* Галерея */
         .gallery-section {
             background: var(--glass-bg);
             backdrop-filter: blur(14px);
@@ -197,13 +171,11 @@
             animation: sectionIn 0.7s ease both;
             transform: translateZ(0);
         }
-
         .gallery-section:hover {
             border-color: rgba(100,200,200,0.7);
             transform: translateY(-5px);
             box-shadow: 0 16px 40px rgba(100,200,150,0.12);
         }
-
         .gallery-title {
             font-size: 1.4rem;
             text-align: center;
@@ -211,7 +183,6 @@
             color: #c8ffd8;
             text-shadow: 0 0 8px rgba(100,200,150,0.6);
         }
-
         .carousel-wrapper {
             position: relative;
             width: 100%;
@@ -220,7 +191,6 @@
             border: 2px solid rgba(100,200,150,0.6);
             background: #0a0520;
         }
-
         .carousel-track {
             display: flex;
             transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -228,9 +198,7 @@
             will-change: transform;
             transform: translateZ(0);
         }
-
         .carousel-track:active { cursor: grabbing; }
-
         .carousel-slide {
             flex: 0 0 100%;
             display: flex;
@@ -238,7 +206,6 @@
             align-items: center;
             background: #0f0a25;
         }
-
         .carousel-slide img {
             width: 100%;
             height: auto;
@@ -246,15 +213,18 @@
             object-fit: contain;
             display: block;
             pointer-events: none;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
         }
-
         .gallery-nav {
             display: flex;
             justify-content: center;
             gap: 20px;
             margin-top: 15px;
         }
-
         .nav-btn {
             background: rgba(80,60,140,0.8);
             border: 2px solid rgba(100,200,150,0.6);
@@ -270,7 +240,6 @@
             justify-content: center;
             will-change: transform;
         }
-
         .nav-btn:hover {
             background: #6a5ac0;
             color: #fff;
@@ -278,14 +247,12 @@
             border-color: #a0ffcc;
             box-shadow: 0 0 22px rgba(100,200,150,0.45);
         }
-
         .indicators {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-top: 12px;
         }
-
         .indicator {
             width: 8px;
             height: 8px;
@@ -295,14 +262,11 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
         .indicator.active {
             background: #a0ffcc;
             transform: scale(1.5);
             box-shadow: 0 0 10px #a0ffcc;
         }
-
-        /* Общий блок секции */
         .section-block {
             background: var(--glass-bg);
             backdrop-filter: blur(14px);
@@ -315,13 +279,11 @@
             animation: sectionIn 0.7s ease both;
             transform: translateZ(0);
         }
-
         .section-block:hover {
             border-color: rgba(100,200,200,0.7);
             transform: translateY(-4px);
             box-shadow: 0 14px 36px rgba(100,200,150,0.1);
         }
-
         .section-title {
             font-size: 1.5rem;
             text-align: center;
@@ -329,7 +291,6 @@
             color: #c8ffd8;
             text-shadow: 0 0 10px rgba(100,200,150,0.5);
         }
-
         .section-subtitle {
             font-size: 0.9rem;
             text-align: center;
@@ -337,13 +298,10 @@
             color: #b8d8e8;
             line-height: 1.5;
         }
-
         @keyframes sectionIn {
             from { opacity: 0; transform: translateY(18px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* FAQ */
         .faq-item {
             margin-bottom: 12px;
             border: 1px solid rgba(100,200,150,0.25);
@@ -351,11 +309,7 @@
             overflow: hidden;
             transition: all 0.3s ease;
         }
-
-        .faq-item:hover {
-            border-color: rgba(100,200,150,0.6);
-        }
-
+        .faq-item:hover { border-color: rgba(100,200,150,0.6); }
         .faq-question {
             background: rgba(80,60,140,0.5);
             padding: 15px 20px;
@@ -367,12 +321,10 @@
             align-items: center;
             transition: all var(--transition-smooth);
         }
-
         .faq-question:hover {
             background: rgba(100,75,170,0.7);
             padding-left: 26px;
         }
-
         .faq-question::after {
             content: "▼";
             font-size: 0.75rem;
@@ -381,11 +333,7 @@
             margin-left: 10px;
             flex-shrink: 0;
         }
-
-        .faq-question.active::after {
-            transform: rotate(180deg);
-        }
-
+        .faq-question.active::after { transform: rotate(180deg); }
         .faq-answer {
             background: rgba(50,35,100,0.7);
             padding: 0 20px;
@@ -396,17 +344,11 @@
             font-size: 0.9rem;
             line-height: 1.7;
         }
-
         .faq-answer.show {
             padding: 15px 20px;
             max-height: 900px;
         }
-
-        /* Форма обратной связи */
-        .form-container {
-            padding: 20px 0;
-        }
-
+        .form-container { padding: 20px 0; }
         .form-container label {
             display: block;
             margin: 18px 0 8px;
@@ -415,7 +357,6 @@
             letter-spacing: 0.5px;
             text-shadow: 0 0 5px rgba(100,200,150,0.3);
         }
-
         .form-container input,
         .form-container textarea,
         .form-container select {
@@ -430,30 +371,19 @@
             transition: all 0.3s ease;
             outline: none;
         }
-
-        .form-container textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
+        .form-container textarea { resize: vertical; min-height: 100px; }
         .form-container input:focus,
         .form-container textarea:focus,
         .form-container select:focus {
             border-color: #a0ffcc;
             box-shadow: 0 0 15px rgba(100,200,150,0.4);
         }
-
-        .form-container select option {
-            background: #0a0520;
-            color: #c8ffd8;
-        }
-
+        .form-container select option { background: #0a0520; color: #c8ffd8; }
         .recaptcha-wrapper {
             margin: 25px 0 10px;
             display: flex;
             justify-content: center;
         }
-
         .btn {
             display: block;
             background: linear-gradient(135deg, #5a4ab0, #3a2a8a);
@@ -474,7 +404,6 @@
             font-family: 'Russo One', sans-serif;
             will-change: transform;
         }
-
         .btn::before {
             content: '';
             position: absolute;
@@ -485,11 +414,7 @@
             background: linear-gradient(90deg, transparent, rgba(160,255,204,0.25), transparent);
             transition: left 0.7s ease;
         }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
+        .btn:hover::before { left: 100%; }
         .btn:hover {
             background: linear-gradient(135deg, #7a6ad0, #5a4aaa);
             transform: translateY(-4px);
@@ -498,24 +423,14 @@
             color: #fff;
             box-shadow: 0 12px 30px rgba(100,200,150,0.35);
         }
-
-        .btn:active {
-            transform: scale(0.96);
-            transition: transform 0.1s ease;
-        }
-
-        .btn-small {
-            font-size: 0.95rem;
-            padding: 12px 16px;
-        }
-
+        .btn:active { transform: scale(0.96); transition: transform 0.1s ease; }
+        .btn-small { font-size: 0.95rem; padding: 12px 16px; }
         .btn-group {
             display: flex;
             flex-direction: column;
             gap: 12px;
             margin: 15px 0;
         }
-
         .result-message {
             margin-top: 20px;
             padding: 14px;
@@ -524,25 +439,20 @@
             font-size: 0.9rem;
             animation: fadeIn 0.5s ease;
         }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .success {
             background: rgba(100,200,150,0.2);
             border: 1px solid #a0ffcc;
             color: #a0ffcc;
         }
-
         .error {
             background: rgba(200,100,100,0.2);
             border: 1px solid #ff8888;
             color: #ffaaaa;
         }
-
-        /* Футер */
         footer {
             margin-top: 40px;
             padding-top: 20px;
@@ -551,43 +461,33 @@
             color: #90b8c0;
             font-size: 0.75rem;
         }
-
         .footer-email a {
             color: #a0ffcc;
             text-decoration: none;
             border-bottom: 1px dotted #90b8c0;
             transition: color 0.3s;
         }
-
-        .footer-email a:hover {
-            color: #fff;
-            border-bottom-color: #fff;
-        }
-
-        /* Скроллбар */
+        .footer-email a:hover { color: #fff; border-bottom-color: #fff; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: #0a0520; }
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, #a0ffcc, #6a5ac0);
             border-radius: 10px;
         }
-
-        /* Дополнительная плавность для всех интерактивных элементов */
         a, button, .btn, .faq-question, .indicator {
             -webkit-tap-highlight-color: transparent;
             outline: none;
         }
-
         button:focus-visible, a:focus-visible {
             outline: 2px solid rgba(160, 255, 204, 0.7);
             outline-offset: 3px;
             border-radius: 4px;
         }
+        @media print { body { display: none; } }
     </style>
-    <!-- reCAPTCHA v2 -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
-<body>
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
 
 <div class="aurora-bg"></div>
 <div class="aurora-waves"></div>
@@ -595,19 +495,17 @@
 <div class="stars-container" id="starsContainer"></div>
 
 <div class="container">
-    <img class="avatar" src="https://taplink.st/a/5/8/4/d/daec4f.jpg?1" alt="kvacan">
+    <img class="avatar" src="https://taplink.st/a/5/8/4/d/daec4f.jpg?1" alt="kvacan" draggable="false">
     <h1>KVACAN</h1>
-
     <div class="divider">✦ ✦ ✦</div>
 
-    <!-- Галерея -->
     <div class="gallery-section">
         <div class="gallery-title">Галерея фотографий</div>
         <div class="carousel-wrapper" id="galleryWrapper">
             <div class="carousel-track" id="galleryTrack">
-                <div class="carousel-slide"><img src="https://taplink.st/p/3/f/f/4/69250557.jpg?0" alt="Фото 1" loading="lazy"></div>
-                <div class="carousel-slide"><img src="https://taplink.st/p/4/f/f/b/69250559.jpg?0" alt="Фото 2" loading="lazy"></div>
-                <div class="carousel-slide"><img src="https://taplink.st/p/2/2/3/c/69471405.jpg?0" alt="Фото 3" loading="lazy"></div>
+                <div class="carousel-slide"><img src="https://taplink.st/p/3/f/f/4/69250557.jpg?0" alt="Фото 1" loading="lazy" draggable="false"></div>
+                <div class="carousel-slide"><img src="https://taplink.st/p/4/f/f/b/69250559.jpg?0" alt="Фото 2" loading="lazy" draggable="false"></div>
+                <div class="carousel-slide"><img src="https://taplink.st/p/2/2/3/c/69471405.jpg?0" alt="Фото 3" loading="lazy" draggable="false"></div>
             </div>
         </div>
         <div class="gallery-nav">
@@ -617,85 +515,19 @@
         <div class="indicators" id="galleryIndicators"></div>
     </div>
 
-    <!-- FAQ -->
     <div class="section-block" id="faq">
         <div class="section-title">Часто задаваемые вопросы</div>
-
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">Кто такой kvacan?</div>
-            <div class="faq-answer">kvacan — это Вячеслав. Человек, который решил не откладывать, а просто начать снимать. Здесь нет сценического образа или вымышленной личности. Всё по-настоящему.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">Почему в ссылках tvacan, если автор представляется как kvacan?</div>
-            <div class="faq-answer">Хороший вопрос. Сейчас объясним.<br><br>kvacan — это ник. То самое имя, которое появилось в самом начале и под которым человека знают в сети. Оно не менялось и не поменяется.<br><br>Но с адресами в социальных сетях всё устроено немного сложнее. Когда стали собирать все ссылки в одном месте, оказалось, что не везде можно использовать одно и то же имя. Где-то kvacan уже был занят, где-то оказался свободен, но хотелось, чтобы все адреса были одинаковыми. Чтобы человек зашёл на сайт, нажал на иконку и попал куда нужно, не запоминая два или три разных варианта.<br><br>Поэтому выбрали tvacan. Всего одна буква — и порядок. Теперь все соцсети ведут на один адрес. Никакой путаницы, никаких лишних вопросов.<br><br>А kvacan остаётся тем же, чем и был — ником, по которому человека знают. Всё просто.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">Зачем создан этот сайт?</div>
-            <div class="faq-answer">Это не проект и не портфолио. Это просто навигатор, входная дверь во все социальные сети сразу. Минимум текста, максимум пользы — все ссылки в одном месте.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">Что особенного в контенте?</div>
-            <div class="faq-answer">Честность. Никаких постановочных студий, дорогих декораций или фальшивых эмоций. Только живые видео и фото, снятые в моменте. То, что окружает каждый день.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">Как часто выходит новый контент?</div>
-            <div class="faq-answer">Контент появляется по мере того, как идёт жизнь. Маленькие шаги, регулярное движение, никаких жёстких дедлайнов — только искреннее желание делиться происходящим.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">Чем контент будет отличаться в будущем?</div>
-            <div class="faq-answer">С развитием автора будет расти и контент. Главная задача — чтобы и создателю, и зрителю было комфортно. Форматы могут меняться, но основа останется — живые эмоции и честность.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">Можно ли общаться с автором?</div>
-            <div class="faq-answer">Да. Все социальные сети открыты, ссылки на них есть на этом сайте. Можно писать, комментировать, обсуждать — диалог приветствуется.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">Как можно поддержать?</div>
-            <div class="faq-answer">Если контент заходит и хочется сказать спасибо делом — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше. Ссылка на донат тоже здесь.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">Это надолго?</div>
-            <div class="faq-answer">Пока есть желание снимать и делиться — контент будет жить. А желание есть.</div>
-        </div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Кто такой kvacan?</div><div class="faq-answer">kvacan — это Вячеслав. Человек, который решил не откладывать, а просто начать снимать. Здесь нет сценического образа или вымышленной личности. Всё по-настоящему.</div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Почему в ссылках tvacan, если автор представляется как kvacan?</div><div class="faq-answer">Хороший вопрос. Сейчас объясним.<br><br>kvacan — это ник. То самое имя, которое появилось в самом начале и под которым человека знают в сети. Оно не менялось и не поменяется.<br><br>Но с адресами в социальных сетях всё устроено немного сложнее. Когда стали собирать все ссылки в одном месте, оказалось, что не везде можно использовать одно и то же имя. Где-то kvacan уже был занят, где-то оказался свободен, но хотелось, чтобы все адреса были одинаковыми. Чтобы человек зашёл на сайт, нажал на иконку и попал куда нужно, не запоминая два или три разных варианта.<br><br>Поэтому выбрали tvacan. Всего одна буква — и порядок. Теперь все соцсети ведут на один адрес. Никакой путаницы, никаких лишних вопросов.<br><br>А kvacan остаётся тем же, чем и был — ником, по которому человека знают. Всё просто.</div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Зачем создан этот сайт?</div><div class="faq-answer">Это не проект и не портфолио. Это просто навигатор, входная дверь во все социальные сети сразу. Минимум текста, максимум пользы — все ссылки в одном месте.</div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Что особенного в контенте?</div><div class="faq-answer">Честность. Никаких постановочных студий, дорогих декораций или фальшивых эмоций. Только живые видео и фото, снятые в моменте. То, что окружает каждый день.</div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Как часто выходит новый контент?</div><div class="faq-answer">Контент появляется по мере того, как идёт жизнь. Маленькие шаги, регулярное движение, никаких жёстких дедлайнов — только искреннее желание делиться происходящим.</div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Чем контент будет отличаться в будущем?</div><div class="faq-answer">С развитием автора будет расти и контент. Главная задача — чтобы и создателю, и зрителю было комфортно. Форматы могут меняться, но основа останется — живые эмоции и честность.</div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Можно ли общаться с автором?</div><div class="faq-answer">Да. Все социальные сети открыты, ссылки на них есть на этом сайте. Можно писать, комментировать, обсуждать — диалог приветствуется.</div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Как можно поддержать?</div><div class="faq-answer">Если контент заходит и хочется сказать спасибо делом — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше. Ссылка на донат тоже здесь.</div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Это надолго?</div><div class="faq-answer">Пока есть желание снимать и делиться — контент будет жить. А желание есть.</div></div>
     </div>
 
-    <!-- Форма заявок -->
-    <div class="section-block" id="contactForm">
-        <div class="section-title">По всем вопросам и предложениям заполните форму ниже</div>
-        <div class="form-container">
-            <form id="requestForm">
-                <label>Как к вам обращаться?</label>
-                <input type="text" name="name" placeholder="Например: Вячеслав" required>
-
-                <label>Ваш Telegram или E‑mail для связи</label>
-                <input type="text" name="contact" placeholder="@username или pochta@mail.ru" required>
-
-                <label>Тема обращения</label>
-                <select name="topic" required>
-                    <option value="" disabled selected>Выберите тему</option>
-                    <option value="Задать вопрос автору">Задать вопрос автору</option>
-                    <option value="Сотрудничество / Реклама">Сотрудничество / Реклама</option>
-                    <option value="Техническая проблема">Техническая проблема</option>
-                </select>
-
-                <label>Опишите ситуацию подробно</label>
-                <textarea name="message" placeholder="Опишите, что случилось или что вас интересует..." required></textarea>
-
-                <!-- reCAPTCHA v2 (замените data-sitekey на свой) -->
-                <div class="recaptcha-wrapper">
-                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
-                    <!-- Используется тестовый ключ Google, который всегда проходит проверку.
-                         Замените на ваш реальный ключ для рабочего сайта. -->
-                </div>
-                <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
-
-                <button type="submit" class="btn" style="text-transform: none;">Отправить обращение</button>
-            </form>
-            <div id="formResult"></div>
-        </div>
-    </div>
-
-    <!-- Соцсети -->
     <div class="section-block" id="social">
         <div class="section-title">Социальные сети</div>
         <div class="section-subtitle">Переходи, смотри, подписывайся</div>
@@ -706,7 +538,6 @@
         </div>
     </div>
 
-    <!-- Контакты -->
     <div class="section-block" id="contacts">
         <div class="section-title">Контакты для связи</div>
         <div class="section-subtitle">По вопросам рекламы и сотрудничества</div>
@@ -716,13 +547,39 @@
         </div>
     </div>
 
-    <!-- Поддержка -->
     <div class="section-block" id="donation">
         <div class="section-title">Поддержка</div>
         <div class="section-subtitle">Если заходит — можно поддержать донатом. Любая помощь греет и мотивирует снимать дальше.</div>
         <div class="btn-group">
             <a href="https://pay.cloudtips.ru/p/a64a46d8" class="btn btn-small" target="_blank">DONATION</a>
             <a href="https://finance.ozon.ru/apps/sbp/ozonbankpay/019a9ca8-77bb-7f0f-a532-53c7dca11b0b" class="btn btn-small" target="_blank">DONATION</a>
+        </div>
+    </div>
+
+    <div class="section-block" id="contactForm">
+        <div class="section-title">По всем вопросам и предложениям заполните форму ниже</div>
+        <div class="form-container">
+            <form id="requestForm">
+                <label>Как к вам обращаться?</label>
+                <input type="text" name="name" placeholder="Например: Вячеслав" required>
+                <label>Ваш Telegram или E‑mail для связи</label>
+                <input type="text" name="contact" placeholder="@username или pochta@mail.ru" required>
+                <label>Тема обращения</label>
+                <select name="topic" required>
+                    <option value="" disabled selected>Выберите тему</option>
+                    <option value="Задать вопрос автору">Задать вопрос автору</option>
+                    <option value="Сотрудничество / Реклама">Сотрудничество / Реклама</option>
+                    <option value="Техническая проблема">Техническая проблема</option>
+                </select>
+                <label>Опишите ситуацию подробно</label>
+                <textarea name="message" placeholder="Опишите, что случилось или что вас интересует..." required></textarea>
+                <div class="recaptcha-wrapper">
+                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                </div>
+                <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+                <button type="submit" class="btn" style="text-transform: none;">Отправить обращение</button>
+            </form>
+            <div id="formResult"></div>
         </div>
     </div>
 
@@ -733,181 +590,195 @@
 </div>
 
 <script>
-    // Звёзды (мерцающие + падающие) – оптимизировано: меньше объектов, композитный слой
-    const starsContainer = document.getElementById('starsContainer');
-    const starCount = 50; // снижено для производительности
-    for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div');
-        star.style.position = 'absolute';
-        star.style.width = Math.random() * 2 + 0.8 + 'px';
-        star.style.height = star.style.width;
-        star.style.background = 'white';
-        star.style.borderRadius = '50%';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.opacity = Math.random() * 0.4 + 0.15;
-        star.style.animation = `twinkleStar ${Math.random() * 4 + 2.5}s ease-in-out infinite`;
-        star.style.animationDelay = Math.random() * 6 + 's';
-        star.style.willChange = 'opacity, transform';
-        starsContainer.appendChild(star);
-    }
-    const starKeyframes = document.createElement('style');
-    starKeyframes.textContent = `@keyframes twinkleStar { 0%,100%{opacity:0.15; transform:scale(0.6)} 50%{opacity:0.7; transform:scale(1.2)} }`;
-    document.head.appendChild(starKeyframes);
-
-    let shootingActive = false;
-    let shootingTimeout;
-    function createShootingStar() {
-        const star = document.createElement('div');
-        star.style.position = 'absolute';
-        star.style.width = '2.5px';
-        star.style.height = '2.5px';
-        star.style.background = 'linear-gradient(135deg, #a0ffcc, #6a5ac0)';
-        star.style.borderRadius = '50%';
-        star.style.left = Math.random() * 80 + 10 + '%';
-        star.style.top = '-10px';
-        star.style.pointerEvents = 'none';
-        star.style.zIndex = '6';
-        star.style.opacity = '0';
-        star.style.willChange = 'transform, opacity';
-        star.style.animation = `shootStar ${Math.random() * 2 + 1.5}s linear forwards`;
-        starsContainer.appendChild(star);
-        setTimeout(() => { if (star.parentNode) star.remove(); }, 2800);
-    }
-    const shootKeyframes = document.createElement('style');
-    shootKeyframes.textContent = `@keyframes shootStar { 0%{transform:translateX(0) translateY(0); opacity:0} 5%{opacity:1} 20%{opacity:1} 25%{opacity:0} 100%{transform:translateX(-180px) translateY(350px); opacity:0} }`;
-    document.head.appendChild(shootKeyframes);
-
-    let lastScrollY = window.scrollY;
-    window.addEventListener('scroll', () => {
-        const diff = Math.abs(window.scrollY - lastScrollY);
-        if (diff > 15 && !shootingActive) {
-            shootingActive = true;
-            for (let i = 0; i < 2; i++) setTimeout(createShootingStar, i * 200);
-            clearTimeout(shootingTimeout);
-            shootingTimeout = setTimeout(() => { shootingActive = false; }, 800);
+(function(){
+    const _0x4a2b = function(){};
+    const _0x5b3c = function(){};
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S' || e.key === 'p' || e.key === 'P')) {
+            e.preventDefault();
+            return false;
         }
-        lastScrollY = window.scrollY;
-    }, { passive: true });
-
-    // Галерея
-    const track = document.getElementById('galleryTrack');
-    const slides = document.querySelectorAll('.carousel-slide');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const indicatorsContainer = document.getElementById('galleryIndicators');
-    let currentIndex = 0;
-
-    slides.forEach((_, i) => {
-        const dot = document.createElement('div');
-        dot.className = 'indicator';
-        if (i === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => goToSlide(i));
-        indicatorsContainer.appendChild(dot);
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))) {
+            e.preventDefault();
+            return false;
+        }
     });
-    const indicators = document.querySelectorAll('.indicator');
 
-    function updateIndicators() {
-        indicators.forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentIndex);
-        });
-    }
-
-    function goToSlide(index) {
-        if (index < 0) index = 0;
-        if (index >= slides.length) index = slides.length - 1;
-        currentIndex = index;
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
-        updateIndicators();
-    }
-
-    function nextSlide() {
-        if (currentIndex < slides.length - 1) goToSlide(currentIndex + 1);
-        else goToSlide(0);
-    }
-
-    function prevSlide() {
-        if (currentIndex > 0) goToSlide(currentIndex - 1);
-        else goToSlide(slides.length - 1);
-    }
-
-    prevBtn.addEventListener('click', prevSlide);
-    nextBtn.addEventListener('click', nextSlide);
-
-    const wrapper = document.getElementById('galleryWrapper');
-    let startX = 0;
-    let isDragging = false;
-    wrapper.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-        isDragging = true;
-    }, { passive: true });
-    wrapper.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        const diff = e.touches[0].clientX - startX;
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) prevSlide();
-            else nextSlide();
-            isDragging = false;
-        }
-    }, { passive: true });
-    wrapper.addEventListener('touchend', () => { isDragging = false; });
-
-    // FAQ аккордеон
-    function toggleFaq(element) {
-        const currentlyActive = document.querySelector('.faq-question.active');
-        if (currentlyActive && currentlyActive !== element) {
-            currentlyActive.classList.remove('active');
-            currentlyActive.nextElementSibling.classList.remove('show');
-        }
-        element.classList.toggle('active');
-        element.nextElementSibling.classList.toggle('show');
-    }
-
-    // Форма обратной связи (Google Sheets)
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxSGSPVNzLAw6m6NsMnSEHCUAVT-YsICrV01OU7SC7326QcgD1le-4VbzpKE6hPyGG0HQ/exec";
-    const form = document.getElementById('requestForm');
-    const resultDiv = document.getElementById('formResult');
-
-    form.addEventListener('submit', async (e) => {
+    document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
-
-        // Проверка reCAPTCHA
-        const recaptchaResponse = grecaptcha.getResponse();
-        if (!recaptchaResponse) {
-            resultDiv.innerHTML = '<div class="result-message error">Пожалуйста, подтвердите, что вы не робот.</div>';
-            return;
-        }
-
-        const formData = new FormData(form);
-        const data = {
-            name: formData.get('name'),
-            contact: formData.get('contact'),
-            topic: formData.get('topic'),
-            message: formData.get('message'),
-            recaptcha: recaptchaResponse,
-            timestamp: new Date().toLocaleString('ru-RU')
-        };
-
-        resultDiv.innerHTML = '<div class="result-message" style="background:rgba(100,200,150,0.15); border-color:#a0ffcc;">Отправка...</div>';
-
-        try {
-            await fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(data)
-            });
-
-            resultDiv.innerHTML = '<div class="result-message success">Спасибо, обращение принято. Мы ответим в ближайшее время.</div>';
-            form.reset();
-            grecaptcha.reset();
-        } catch (error) {
-            resultDiv.innerHTML = '<div class="result-message error">Ошибка отправки. Попробуйте позже.</div>';
-        }
+        return false;
     });
 
-    // Глобальные функции
-    window.toggleFaq = toggleFaq;
-</script>
+    setInterval(function() {
+        const before = new Date().getTime();
+        debugger;
+        const after = new Date().getTime();
+        if (after - before > 100) {
+            document.body.innerHTML = '<div style="color:#a0ffcc; text-align:center; padding:50px; font-family:sans-serif;">Доступ ограничен</div>';
+        }
+    }, 1000);
+})();
 
+const _0x2871 = document.getElementById('starsContainer');
+for (let _0x2872 = 0; _0x2872 < 50; _0x2872++) {
+    const _0x2873 = document.createElement('div');
+    _0x2873.style.position = 'absolute';
+    _0x2873.style.width = Math.random() * 2 + 0.8 + 'px';
+    _0x2873.style.height = _0x2873.style.width;
+    _0x2873.style.background = 'white';
+    _0x2873.style.borderRadius = '50%';
+    _0x2873.style.left = Math.random() * 100 + '%';
+    _0x2873.style.top = Math.random() * 100 + '%';
+    _0x2873.style.opacity = Math.random() * 0.4 + 0.15;
+    _0x2873.style.animation = `twinkleStar ${Math.random() * 4 + 2.5}s ease-in-out infinite`;
+    _0x2873.style.animationDelay = Math.random() * 6 + 's';
+    _0x2873.style.willChange = 'opacity, transform';
+    _0x2871.appendChild(_0x2873);
+}
+
+const _0x2874 = document.createElement('style');
+_0x2874.textContent = '@keyframes twinkleStar{0%,100%{opacity:0.15;transform:scale(0.6)}50%{opacity:0.7;transform:scale(1.2)}}';
+document.head.appendChild(_0x2874);
+
+let _0x2875 = false;
+let _0x2876;
+function _0x2877() {
+    const _0x2878 = document.createElement('div');
+    _0x2878.style.position = 'absolute';
+    _0x2878.style.width = '2.5px';
+    _0x2878.style.height = '2.5px';
+    _0x2878.style.background = 'linear-gradient(135deg, #a0ffcc, #6a5ac0)';
+    _0x2878.style.borderRadius = '50%';
+    _0x2878.style.left = Math.random() * 80 + 10 + '%';
+    _0x2878.style.top = '-10px';
+    _0x2878.style.pointerEvents = 'none';
+    _0x2878.style.zIndex = '6';
+    _0x2878.style.opacity = '0';
+    _0x2878.style.willChange = 'transform, opacity';
+    _0x2878.style.animation = `shootStar ${Math.random() * 2 + 1.5}s linear forwards`;
+    _0x2871.appendChild(_0x2878);
+    setTimeout(function(){ if(_0x2878.parentNode) _0x2878.remove(); }, 2800);
+}
+const _0x2879 = document.createElement('style');
+_0x2879.textContent = '@keyframes shootStar{0%{transform:translateX(0) translateY(0);opacity:0}5%{opacity:1}20%{opacity:1}25%{opacity:0}100%{transform:translateX(-180px) translateY(350px);opacity:0}}';
+document.head.appendChild(_0x2879);
+
+let _0x2880 = window.scrollY;
+window.addEventListener('scroll', function(){
+    const _0x2881 = Math.abs(window.scrollY - _0x2880);
+    if(_0x2881 > 15 && !_0x2875){
+        _0x2875 = true;
+        for(let _0x2882 = 0; _0x2882 < 2; _0x2882++) setTimeout(_0x2877, _0x2882 * 200);
+        clearTimeout(_0x2876);
+        _0x2876 = setTimeout(function(){ _0x2875 = false; }, 800);
+    }
+    _0x2880 = window.scrollY;
+}, {passive: true});
+
+const _0x2883 = document.getElementById('galleryTrack');
+const _0x2884 = document.querySelectorAll('.carousel-slide');
+const _0x2885 = document.getElementById('prevBtn');
+const _0x2886 = document.getElementById('nextBtn');
+const _0x2887 = document.getElementById('galleryIndicators');
+let _0x2888 = 0;
+
+_0x2884.forEach(function(_, _0x2889){
+    const _0x2890 = document.createElement('div');
+    _0x2890.className = 'indicator';
+    if(_0x2889 === 0) _0x2890.classList.add('active');
+    _0x2890.addEventListener('click', function(){ _0x2891(_0x2889); });
+    _0x2887.appendChild(_0x2890);
+});
+const _0x2892 = document.querySelectorAll('.indicator');
+
+function _0x2893(){
+    _0x2892.forEach(function(_0x2894, _0x2895){
+        _0x2894.classList.toggle('active', _0x2895 === _0x2888);
+    });
+}
+
+function _0x2891(_0x2896){
+    if(_0x2896 < 0) _0x2896 = 0;
+    if(_0x2896 >= _0x2884.length) _0x2896 = _0x2884.length - 1;
+    _0x2888 = _0x2896;
+    _0x2883.style.transform = `translateX(-${_0x2888 * 100}%)`;
+    _0x2893();
+}
+
+function _0x2897(){
+    if(_0x2888 < _0x2884.length - 1) _0x2891(_0x2888 + 1);
+    else _0x2891(0);
+}
+
+function _0x2898(){
+    if(_0x2888 > 0) _0x2891(_0x2888 - 1);
+    else _0x2891(_0x2884.length - 1);
+}
+
+_0x2885.addEventListener('click', _0x2898);
+_0x2886.addEventListener('click', _0x2897);
+
+const _0x2899 = document.getElementById('galleryWrapper');
+let _0x2900 = 0;
+let _0x2901 = false;
+_0x2899.addEventListener('touchstart', function(e){
+    _0x2900 = e.touches[0].clientX;
+    _0x2901 = true;
+}, {passive: true});
+_0x2899.addEventListener('touchmove', function(e){
+    if(!_0x2901) return;
+    const _0x2902 = e.touches[0].clientX - _0x2900;
+    if(Math.abs(_0x2902) > 50){
+        if(_0x2902 > 0) _0x2898();
+        else _0x2897();
+        _0x2901 = false;
+    }
+}, {passive: true});
+_0x2899.addEventListener('touchend', function(){ _0x2901 = false; });
+
+function toggleFaq(_0x2903){
+    const _0x2904 = document.querySelector('.faq-question.active');
+    if(_0x2904 && _0x2904 !== _0x2903){
+        _0x2904.classList.remove('active');
+        _0x2904.nextElementSibling.classList.remove('show');
+    }
+    _0x2903.classList.toggle('active');
+    _0x2903.nextElementSibling.classList.toggle('show');
+}
+
+const _0x2905 = "https://script.google.com/macros/s/AKfycbxSGSPVNzLAw6m6NsMnSEHCUAVT-YsICrV01OU7SC7326QcgD1le-4VbzpKE6hPyGG0HQ/exec";
+const _0x2906 = document.getElementById('requestForm');
+const _0x2907 = document.getElementById('formResult');
+
+_0x2906.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const _0x2908 = grecaptcha.getResponse();
+    if(!_0x2908){
+        _0x2907.innerHTML = '<div class="result-message error">Пожалуйста, подтвердите, что вы не робот.</div>';
+        return;
+    }
+    const _0x2909 = new FormData(_0x2906);
+    const _0x2910 = {
+        name: _0x2909.get('name'),
+        contact: _0x2909.get('contact'),
+        topic: _0x2909.get('topic'),
+        message: _0x2909.get('message'),
+        recaptcha: _0x2908,
+        timestamp: new Date().toLocaleString('ru-RU')
+    };
+    _0x2907.innerHTML = '<div class="result-message" style="background:rgba(100,200,150,0.15);border-color:#a0ffcc;">Отправка...</div>';
+    try {
+        await fetch(_0x2905, {method: 'POST', mode: 'no-cors', body: JSON.stringify(_0x2910)});
+        _0x2907.innerHTML = '<div class="result-message success">Спасибо, обращение принято. Мы ответим в ближайшее время.</div>';
+        _0x2906.reset();
+        grecaptcha.reset();
+    } catch(_0x2911){
+        _0x2907.innerHTML = '<div class="result-message error">Ошибка отправки. Попробуйте позже.</div>';
+    }
+});
+
+window.toggleFaq = toggleFaq;
+</script>
 </body>
 </html>
